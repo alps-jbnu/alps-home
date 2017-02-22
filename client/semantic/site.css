@@ -1,0 +1,17 @@
+.ui.menu.hidden {
+    display: none;
+}
+
+.secondary.pointing.menu .toc.item {
+    display: none;
+}
+
+@media only screen and (max-width: 700px) {
+    .secondary.pointing.menu .toc.item {
+        display: block;
+    }
+    
+    .secondary.pointing.menu .item, .secondary.pointing.menu .menu {
+        display: none;
+    }
+}

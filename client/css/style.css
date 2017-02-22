@@ -1,0 +1,84 @@
+.main.header {
+    font-weight: 100; text-align: center; font-size: 3em;
+}
+
+.ui.inverted.jumbo.header { font-size: 10rem; margin-top: 8rem; }
+.jumbo.small.header { font-size: 3rem; }
+
+.ui.divider.main.blue {
+    max-width: 100px; margin-left: auto; margin-right: auto; border-width: 1px; border-color: #4B77BE;
+}
+
+.ui.centered.container {
+    text-align: center;
+}
+
+.ui.main.segment {
+    padding: 5em 0;
+}
+
+.ui.secondary.pointing.menu a.main.item {
+    border-radius: 5px;
+    transition: background-color .5s;
+}
+.ui.secondary.pointing.menu a.main.item:hover {
+    background-color: rgba(255,255,255,.25);
+    transition: background-color .5s;
+}
+
+.jumboBackgroundV {
+    width: 100%;
+    height: 800px;
+    padding: 0 !important;
+}
+
+.jumboBackgroundV .wrapper {
+    position:absolute !important;
+    z-index:2 !important;
+    width: 100%;
+    margin-top: 30px;
+}
+
+#statistics {
+    background-size: cover;
+    background-image: url(/images/background_library.jpg);
+    background-position: 0% 0%;
+}
+#history {
+    background-size: cover;
+    background-image: url(/images/background_cube.png);
+    background-position: 0% 0%;
+}
+
+a.footer.link {
+    color: #999;
+}
+a.footer.link:hover {
+    color: #fff;
+}
+
+.left-align {
+    text-align: left;
+}
+.right-align {
+    text-align: right;
+}
+
+p.description {
+    line-height: 1.75rem;
+}
+
+
+@media only screen and (max-width: 700px) {
+    .ui.inverted.jumbo.header { font-size: 6rem; margin-top: 3rem; }
+    .jumbo.small.header { font-size: 3rem; }
+    
+    .jumboBackgroundV {
+        height: auto;
+        min-height: 600px;
+		max-height: 730px;
+    }
+    .jumboBackgroundV .wrapper {
+        margin-top: 10px;
+    }
+}
