@@ -215,17 +215,57 @@
     </div>
     
     <div class="ui vertical main segment" id="contact">
-      <div class="ui centered container">
+      <div class="ui centered text container">
         <img src="/images/alps-git.png" style="border-radius: 50%;"/>
         <h1 class="main header">Join us</h1>
         <div class="ui divider main blue"></div>
         <p>ALPS는 열정이 가득한 당신을 항상 원하고 있습니다. </p>
+        
         <p>
-          <b>alps.jbnu@gmail.com</b> 로 연락<br>
-          또는<br>
-          전북대학교 공과대학 7호관 지하 1층 7007호 <b>방문</b><br>
-          으로 가입 신청을 받고있습니다.
+          <b>alps.jbnu@gmail.com</b> 로 연락
         </p>
+        
+        <div class="ui horizontal divider">또는</div>
+        
+        <p>
+          전북대학교 공과대학 7호관 지하 1층 7007호 <b>방문</b><br>
+        </p>
+        
+        <div class="ui horizontal divider">또는</div>
+        
+        <form class="ui form segment">
+          <p>홈페이지에서 신청하기</p>
+          <div class="two fields">
+            <div class="field">
+              <label>이름</label>
+              <input placeholder="본명으로 작성해주세요." name="name" type="text" required>
+            </div>
+            <div class="field">
+              <label>연락처</label>
+              <input placeholder="Phone Number" name="phone" type="text" required>
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label>어떻게 알고 오셨나요?</label>
+              <input placeholder="ex) 선배가 추천해서.. 등" name="recommend" type="text">
+            </div>
+            <div class="field">
+              <label>한마디</label>
+              <input type="text" name="comment">
+            </div>
+          </div>
+          <div class="inline field">
+            <div class="ui checkbox">
+              <input type="checkbox" name="terms">
+              <label><a href="#">개인정보처리방침</a>에 동의합니다.</label>
+            </div>
+          </div>
+          <div class="ui primary submit button">신청하기</div>
+          <div class="ui error message"></div>
+        </form>
+        
+        <p>으로 가입 신청을 받고있습니다.</p>
       </div>
     </div>
     
@@ -239,10 +279,10 @@
           <div class="three wide column">
             <h4 class="ui inverted header">Home</h4>
             <div class="ui inverted link list">
-              <a href="#" class="item">Sitemap</a>
-              <a href="#" class="item">Contact Us</a>
-              <a href="#" class="item">Religious Ceremonies</a>
-              <a href="#" class="item">Gazebo Plans</a>
+              <a data-scroll-href="objective" class="item">About us</a>
+              <a data-scroll-href="activities" class="item">Activities</a>
+              <a data-scroll-href="history" class="item">History</a>
+              <a data-scroll-href="contact" class="item">Contact us</a>
             </div>
           </div>
           <div class="three wide column">
@@ -347,11 +387,9 @@
         .visibility({
           once: false,
           onTopPassed: function(calculations) {
-            console.log('passed');
             $('#topButton').transition('fade up');
           },
           onTopPassedReverse: function(calculations) {
-            console.log('passed rev');
             $('#topButton').transition('fade down');
           }
         })
@@ -376,6 +414,40 @@
             if(calculations.onScreen){
               var percentage = calculatePercentageParallax(calculations);
               this.style.backgroundPositionY = percentage +'%';
+            }
+          }
+        })
+      ;
+      
+      $('.ui.form')
+        .form({
+          fields: {
+            name: {
+              identifier: 'name',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : '이름을 입력해주세요'
+                }
+              ]
+            },
+            phone: {
+              identifier: 'phone',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : '연락처를 입력해주세요'
+                }
+              ]
+            },
+            terms: {
+              identifier: 'terms',
+              rules: [
+                {
+                  type   : 'checked',
+                  prompt : '개인정보처리방침에 동의하지 않으셨습니다.'
+                }
+              ]
             }
           }
         })
