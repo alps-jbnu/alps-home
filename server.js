@@ -9,6 +9,7 @@ var path = require('path');
 var async = require('async');
 var socketio = require('socket.io');
 var express = require('express');
+var exphbs  = require('express-handlebars');
 
 //
 // ## SimpleServer `SimpleServer(obj)`
@@ -20,7 +21,19 @@ var router = express();
 var server = http.createServer(router);
 var io = socketio.listen(server);
 
+var bodyParser = require('body-parser');
+var multer = require('multer'); // v1.0.5
+var upload = multer(); // for parsing multipart/form-data
+
+router.use(bodyParser.json()); // for parsing application/json
+router.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+router.engine('handlebars', exphbs({defaultLayout: 'main'}));
+router.set('view engine', 'handlebars');
+
+router.use('/', require('./router/pages.router'));
+router.use('/boj', require('./router/boj.router'));
 router.use(express.static(path.resolve(__dirname, 'client')));
+
 var messages = [];
 var sockets = [];
 
