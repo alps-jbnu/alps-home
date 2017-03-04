@@ -40,15 +40,15 @@
   </div>
   
   <script>
+  function smoothScroll(elementId){
+    var el = $("#" + elementId);
+    if( el.length ){
+      $('body,html').animate({scrollTop: el.position().top}, 800);
+    }
+  }
+  
   $(document)
     .ready(function() {
-      function smoothScroll(elementId){
-        var el = $("#" + elementId);
-        if( el.length ){
-          $('body,html').animate({scrollTop: el.position().top}, 800);
-        }
-      }
-      
       $("*[data-scroll-href]").on('click', function(){
         smoothScroll($(this).data('scroll-href'));
       });

@@ -34,6 +34,8 @@ router.use('/', require('./router/pages.router'));
 router.use('/boj', require('./router/boj.router'));
 router.use(express.static(path.resolve(__dirname, 'client')));
 
+router.use(require('./router/error.router'));
+
 var messages = [];
 var sockets = [];
 
