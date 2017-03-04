@@ -10,9 +10,39 @@ router.use(function timeLog(req, res, next) {
 });
 
 router.get('/:username([a-zA-Z0-9]+).json', function(req, res) {
-  var url = 'https://www.acmicpc.net/user/' + req.params.username;
+  getJSONProblems(req.param('username'), function(result){
+    res.json(result || {});
+  });
+});
+
+router.get('/', function(req, res) {
+  var user = req.param('user');
+  
+  getJSONProblems(user, function(problems){
+    res.render('boj/views', {
+      title: 'BOJ',
+      username: user,
+      problems_ACC: {
+        length: Object.keys(problems.ACC).length,
+        list: problems.ACC,
+        toString: JSON.stringify(problems.ACC)
+      },
+      problems_WA: {
+        length: Object.keys(problems.WA).length,
+        list: problems.WA,
+        toString: JSON.stringify(problems.WA)
+      }
+    });
+  });
+});
+
+function getJSONProblems(username, callback){
+  var url = 'https://www.acmicpc.net/user/' + username;
   request(url, function(error, response, html){  
-    if (error) {throw error};
+    if (error) {
+      throw error;
+      return callback(error);
+    }
 
     var $ = cheerio.load(html);
     
@@ -33,22 +63,11 @@ router.get('/:username([a-zA-Z0-9]+).json', function(req, res) {
     var problems_acc = $(problem_info[0]);
     var problems_wa = $(problem_info[1]);
     
-    res.json({
-      "problems": {
-        "ACC": parse_problem(problems_acc),
-        "WA": parse_problem(problems_wa)
-      }
+    return callback({
+      "ACC": parse_problem(problems_acc),
+      "WA": parse_problem(problems_wa)
     });
   });
-});
-
-router.get('/', function(req, res) {
-  var test = [];
-  for(var i=0; i<100; ++i) test.push(Math.random()*100);
-  res.render('boj/views', {
-    title: 'BOJ',
-    test: test
-  });
-});
+}
 
 exports = module.exports = router;

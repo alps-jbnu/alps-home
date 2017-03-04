@@ -1,7 +1,69 @@
-<div class="ui container">
-  <h1>Header</h1>
+<div class="ui vertical segment">
+  <div class="ui center aligned container">
+    <form class="ui form" id="form_vs">
+      <div class="ui input">
+        <input type="text" name="user" value="{{ username }}" class="form-control" placeholder="BOJ 아이디">
+      </div>
+			<button type="submit" class="ui primary button">&nbsp;확인&nbsp;</button>
+			<button type="button" class="ui red button" id="randomMyProblem">랜덤으로 복습하기</button>
+      <div class="ui error message"></div>
+		</form>
+		<br/>
+	</div>
+	
+	{{#if problems_ACC }}
+	<div class="ui container">
+	  <h1 class="ui dividing header" style="margin-top: 20px;">{{ problems_ACC.length }}개의 해결한 문제</h1>
+    {{#each problems_ACC.list }}
+      <a href="https://www.acmicpc.net/problem/{{ this.id }}" id="problem_{{ this.id }}" target="_blank" class="ui blue basic label" style="margin-bottom: 5px;">
+        {{ this.id }}
+        <div class="detail">{{ this.title }}</div>
+      </a>
+    {{/each}}
+  </div>
+  {{/if}}
   
-  {{#each test}}
-    <p>{{this}}</p>
-  {{/each}}
+	{{#if problems_WA }}
+	<div class="ui container">
+	  <h1 class="ui dividing header" style="margin-top: 20px;">{{ problems_WA.length }}개의 해결하지 못한 문제</h1>
+    {{#each problems_WA.list }}
+      <a href="https://www.acmicpc.net/problem/{{ this.id }}" id="problem_{{ this.id }}" target="_blank" class="ui red basic label" style="margin-bottom: 5px;">
+        {{ this.id }}
+        <div class="detail">{{ this.title }}</div>
+      </a>
+    {{/each}}
+  </div>
+  {{/if}}
 </div>
+
+<script>
+$(document).ready(function(){
+  $("#form_vs")
+    .form({
+      fields: {
+        user : 'empty'
+      }
+    })
+  ;
+  
+  $("#randomMyProblem").on('click', function(){
+    function rp(json){
+      var problems = json;
+      var randomIndex = Math.floor(Math.random() * Object.keys(problems).length);
+      return problems[randomIndex] || null;
+    }
+    
+    var randomProblem = rp(JSON.parse('{{{ problems_ACC.toString }}}'));
+    // 10% 확률로 틀린 문제도 복습
+    if(randomProblem == null || Math.floor(Math.random()*10)==0){
+      randomProblem = rp(JSON.parse('{{{ problems_WA.toString }}}'));
+    }
+    
+    smoothScroll('problem_' + randomProblem.id);
+    $('#problem_' + randomProblem.id)
+      .removeClass('basic')
+      .transition('jiggle').transition('jiggle').transition('jiggle')
+    ;
+  });
+});
+</script>
