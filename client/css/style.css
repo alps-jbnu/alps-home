@@ -68,6 +68,8 @@ p.description {
     line-height: 1.75rem;
 }
 
+.g-recaptcha { margin-bottom: 10px; }
+.g-recaptcha > div { margin: 0 auto; }
 
 @media only screen and (max-width: 700px) {
     .ui.inverted.jumbo.header { font-size: 6rem; margin-top: 3rem; }
