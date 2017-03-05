@@ -37,6 +37,16 @@ router.use(require('./routes/alps.api.routes'));
 
 router.use(require('./routes/error.routes'));
 
+// Database Connection
+var mongoose = require('mongoose');
+var db = mongoose.connection;
+db.on('error', console.error);
+db.once('open', function(){
+    // CONNECTED TO MONGODB SERVER
+    console.log("Connected to mongod server");
+});
+mongoose.connect('mongodb://localhost/alps_db');
+
 // Chat Socket Connection
 var messages = [];
 var sockets = [];

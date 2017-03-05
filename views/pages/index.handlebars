@@ -199,7 +199,7 @@
       
       <div class="ui horizontal divider">또는</div>
       
-      <form class="ui form segment">
+      <form class="ui form segment" method="POST" action="/api/waitMember">
         <p>홈페이지에서 신청하기</p>
         <div class="two fields">
           <div class="field">
@@ -233,6 +233,16 @@
       </form>
       
       <p>으로 가입 신청을 받고있습니다.</p>
+      
+      <div class="ui icon success message" style="display: none;">
+        <i class="notched check icon"></i>
+        <div class="content">
+          <div class="header">
+            감사합니다!
+          </div>
+          <p>신청이 성공적으로 완료되었습니다.<br> 빠른 시일 내에 연락드리겠습니다.</p>
+        </div>
+      </div>
     </div>
   </div>
   
@@ -364,7 +374,11 @@ $(document)
             rules: [
               {
                 type   : 'empty',
-                prompt : '이름을 입력해주세요'
+                prompt : '이름을 입력해주세요.'
+              },
+              {
+                type   : 'minLength[2]',
+                prompt : '적절하지 못한 이름의 길이입니다.'
               }
             ]
           },
@@ -373,7 +387,11 @@ $(document)
             rules: [
               {
                 type   : 'empty',
-                prompt : '연락처를 입력해주세요'
+                prompt : '연락처를 입력해주세요.'
+              },
+              {
+                type   : 'minLength[2]',
+                prompt : '올바른 연락처를 입력해주세요.'
               }
             ]
           },
@@ -386,6 +404,40 @@ $(document)
               }
             ]
           }
+        },
+        on: 'blur',
+        transition: 'fade down', 
+        onSuccess: function(event){
+          event.preventDefault();
+          var cap = chkCaptcha();
+          console.log(cap);
+          if(cap !== false){
+            $(this).ajaxSubmit({
+              beforeSubmit: function(form) {
+                $(".form .submit.button").addClass('loading disabled');
+                return true;
+              },
+              error: function(xhr) {
+                console.error('Error: ' + xhr.status);
+              },
+              success: function(response) {
+                console.log('response: ', response);
+                if(response.result == 1){
+                  $('.form').form('reset');
+                  $(".message").transition('fade out');
+                  $(".success.message").transition('fade in');
+                } else {
+                  var message = response.responseDesc || '관리자에게 문의하세요';
+                  $(".form .error.message").html('<li>' + message + '</li>').transition('fade in');
+                }
+                
+                $(".form .submit.button").removeClass('loading disabled');
+              }
+            }); 
+          } else {
+            $(".form .error.message").html('<li>자동인증방지를 확인해주세요.</li>').transition('fade in');
+          }
+          return false;
         }
       })
     ;
