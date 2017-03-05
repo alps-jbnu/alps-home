@@ -30,12 +30,14 @@ router.use(bodyParser.urlencoded({ extended: true })); // for parsing applicatio
 router.engine('handlebars', exphbs({defaultLayout: 'main'}));
 router.set('view engine', 'handlebars');
 
-router.use('/', require('./router/pages.router'));
-router.use('/boj', require('./router/boj.router'));
+router.use('/', require('./routes/pages.routes'));
+router.use('/boj', require('./routes/boj.routes'));
 router.use(express.static(path.resolve(__dirname, 'client')));
+router.use(require('./routes/alps.api.routes'));
 
-router.use(require('./router/error.router'));
+router.use(require('./routes/error.routes'));
 
+// Chat Socket Connection
 var messages = [];
 var sockets = [];
 
@@ -93,6 +95,7 @@ function broadcast(event, data) {
   });
 }
 
+// Listen Server
 server.listen(process.env.PORT || 80, process.env.IP || "0.0.0.0", function(){
   var addr = server.address();
   console.log("Chat server listening at", addr.address + ":" + addr.port);

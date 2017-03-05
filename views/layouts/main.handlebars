@@ -25,6 +25,7 @@
   
   <!-- scripts -->
   <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.form.min.js"></script>
   <script src="/semantic/dist/semantic.min.js"></script>
   <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
@@ -41,6 +42,7 @@
   </div>
   
   <script>
+  function chkCaptcha() {if (typeof(grecaptcha) != 'undefined') {if (grecaptcha.getResponse() == "") {alert("스팸방지코드를 확인해 주세요.");return false;}}else {return false;}}
   function smoothScroll(elementId){
     var el = $("#" + elementId);
     if( el.length ){

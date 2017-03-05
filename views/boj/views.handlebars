@@ -11,7 +11,7 @@
 		<br/>
 	</div>
 	
-	{{#if problems_ACC }}
+	{{#if username }}
 	<div class="ui container">
 	  <h1 class="ui dividing header" style="margin-top: 20px;">{{ problems_ACC.length }}개의 해결한 문제</h1>
     {{#each problems_ACC.list }}
@@ -21,9 +21,7 @@
       </a>
     {{/each}}
   </div>
-  {{/if}}
   
-	{{#if problems_WA }}
 	<div class="ui container">
 	  <h1 class="ui dividing header" style="margin-top: 20px;">{{ problems_WA.length }}개의 해결하지 못한 문제</h1>
     {{#each problems_WA.list }}
@@ -41,7 +39,14 @@ $(document).ready(function(){
   $("#form_vs")
     .form({
       fields: {
-        user : 'empty'
+        user: { 
+          rules: [
+            {
+              type   : 'empty',
+              prompt : '검색할 아이디가 필요합니다.'
+            }
+          ]
+        }
       }
     })
   ;
