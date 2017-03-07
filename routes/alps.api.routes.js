@@ -98,7 +98,6 @@ function sendEmail(emailsTo, subject, body){
   for(var e in emailsTo){
     emails.push({email: emailsTo[e]});
   }
-  console.log(emails);
   
   var sgRequest = sendgrid.emptyRequest({
     method: 'POST',

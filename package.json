@@ -39,6 +39,7 @@
     "gulp-uglify": "^2.0.1",
     "gulp-util": "^3.0.8",
     "gulp-watch": "^4.3.11",
+    "htmlspecialchars": "^1.0.5",
     "jade": "^1.11.0",
     "map-stream": "0.0.6",
     "method-override": "^2.3.7",
