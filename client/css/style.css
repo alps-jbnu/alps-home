@@ -68,6 +68,16 @@ p.description {
     line-height: 1.75rem;
 }
 
+div.top-button-wrap {
+    position: fixed;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    widht: 70px;
+    z-index: 10001;
+    padding: 0 1em 1em 0;
+    box-sizing: border-box; 
+}
 .g-recaptcha { margin-bottom: 10px; }
 .g-recaptcha > div { margin: 0 auto; }
 
@@ -82,5 +92,10 @@ p.description {
     }
     .jumboBackgroundV .wrapper {
         margin-top: 10px;
+    }
+
+    #topButton { 
+        display: block !important; 
+        visibility: visible !important;
     }
 }
