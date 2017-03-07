@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var memberSchema = new Schema({
     name: String,
     phone: String,
-    how: String,
+    recommend: String,
     comment: String,
     status: { type: Number, default: 0 },
     registered_date: { type: Date, default: Date.now  }

@@ -49,6 +49,7 @@
     "require-dot-file": "^0.4.0",
     "run-sequence": "^1.2.2",
     "semantic-ui": "^2.2.7",
+    "sendgrid": "^4.7.1",
     "serve-favicon": "^2.4.1",
     "socket.io": "~0.9.14",
     "yamljs": "^0.2.8"

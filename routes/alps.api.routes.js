@@ -4,6 +4,9 @@ var router = express.Router();
 
 var waitMember = require('../models/waitMember.model');
 
+var sendgrid_key = process.env.SENDGRID_API_KEY || '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';
+var sendgrid = require('sendgrid')(sendgrid_key);
+
 // middleware that is specific to this router
 router.use(function (req, res, next) {
   next();
@@ -26,6 +29,20 @@ router.get('/api/waitMember/author/:author', function(req, res){
 
 // CREATE member
 router.post('/api/waitMember', verifyGoogleReCAPTCHA, function(req, res){
+  function makeForm(member){
+    var date = new Date(member.registered_date), timeZoneOffset = +9;
+    var tz = date.getTime() + (date.getTimezoneOffset() * 60000) + (timeZoneOffset * 3600000);
+    date.setTime(tz);
+    
+    var text = "";
+    text += "<p><a class=\"ui label\">이름</a><li>"+member.name+"</li></p>";
+    text += "<p><a class=\"ui label\">연락처</a><li>"+member.phone+"</li></p>";
+    text += "<p><a class=\"ui label\">어떻게 알고 오셨나요?</a><li>"+member.recommend+"</li></p>";
+    text += "<p><a class=\"ui label\">한마디</a><li>"+member.comment+"</li></p>";
+    text += "<br><br><p>" + date.toGMTString() +"&nbsp;에 접수됨.</p>";
+    return text;
+  }
+
   var member = new waitMember(req.body);
   member.save(function(err){
     if(err){
@@ -33,6 +50,9 @@ router.post('/api/waitMember', verifyGoogleReCAPTCHA, function(req, res){
       res.json({result: 0});
       return;
     }
+
+    var text = makeForm(member);
+    sendEmail(['joonas.yoon@gmail.com', 'dldudgns73@naver.com'], 'ALPS 가입 신청 메일', text);
     res.json({result: 1});
   });
 });
@@ -66,6 +86,53 @@ function verifyGoogleReCAPTCHA(req, res, next){
     }
     next();
     // res.json({"responseCode" : 0,"responseDesc" : "Success"});
+  });
+}
+
+function sendEmail(emailsTo, subject, body){
+  function makeHtml(html){
+    return "<!doctype html><html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css\"/></head><body>"
+     + html + "</body></html>";
+  }
+  var emails = [];
+  for(var e in emailsTo){
+    emails.push({email: emailsTo[e]});
+  }
+  console.log(emails);
+  
+  var sgRequest = sendgrid.emptyRequest({
+    method: 'POST',
+    path: '/v3/mail/send',
+    body: {
+      personalizations: [
+        {
+          to: emails,
+          subject: subject,
+        },
+      ],
+      from: {
+        email: 'no-reply@alps.jbnu.ac.kr',
+        name: 'ALPS'
+      },
+      content: [
+        {
+          type: 'text/html',
+          value: makeHtml(body),
+        },
+      ],
+    },
+  });
+  console.log(makeHtml(body));
+  sendgrid.API(sgRequest, function(error, response) {
+    if (error) {
+      console.log('Error response received');
+    }
+    
+    var emails = "";
+    for(var e in emailsTo){
+      emails += emailsTo[e] +", ";
+    }
+    console.log('send email to:', emails, response.statusCode);
   });
 }
 

@@ -47,6 +47,9 @@ db.once('open', function(){
 });
 mongoose.connect('mongodb://localhost/alps_db');
 
+// Mail Service (send-grid) API KEY configure
+console.log('SendGrid API KEY: ', process.env.SENDGRID_API_KEY);
+
 // Chat Socket Connection
 var messages = [];
 var sockets = [];
