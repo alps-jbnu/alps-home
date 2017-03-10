@@ -2,7 +2,7 @@ var express = require('express');
 var request = require('request');
 var router = express.Router();
 
-var waitMember = require('../models/waitMember.model');
+var waitMember = require('../models/waitMember');
 
 var sendgrid_key = process.env.SENDGRID_API_KEY || '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';
 var sendgrid = require('sendgrid')(sendgrid_key);

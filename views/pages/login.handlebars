@@ -1,0 +1,81 @@
+<style type="text/css">
+  body {
+    background-color: #EFEFEF;
+  }
+  body > .grid {
+    height: 100%;
+  }
+  .image {
+    margin-top: -100px;
+    border-radius: 50%;
+  }
+  .column {
+    max-width: 450px;
+  }
+</style>
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui teal image header">
+      <img src="/images/alps-git.png" class="image">
+      <div class="content">
+        Log-in to ALPS
+      </div>
+    </h2>
+    <form class="ui large form" action="/login" method="POST">
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text" name="username" placeholder="아이디 또는 이메일" value="{{ user.username }}">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" placeholder="비밀번호" value="">
+          </div>
+        </div>
+        <div class="ui fluid large teal submit button">로그인</div>
+      </div>
+
+      {{#each error_messages}}
+        <p style="color: #C3272B;">{{ this }}</p>
+      {{/each}}
+      <div class="ui error message"></div>
+
+    </form>
+
+    <div class="ui message">
+      새로 오셨다면 <a href="/register">여기</a>를 눌러주세요.
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+  $('.ui.form')
+    .form({
+      fields: {
+        username: {
+          identifier: 'username',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : '아이디 또는 이메일을 입력해주세요.'
+            }
+          ]
+        },
+        password: {
+          identifier: 'password',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : '비밀번호를 입력해주세요.'
+            }
+          ]
+        },
+      }
+    })
+  ;
+});
+</script>
