@@ -6,9 +6,9 @@ var config = require('./');
 module.exports = {
 
     'facebookAuth' : {
-        'clientID'      : 'your-secret-clientID-here', // your App ID
-        'clientSecret'  : 'your-client-secret-here', // your App Secret
-        'callbackURL'   : 'http://localhost:8080/auth/facebook/callback'
+        'clientID'      : '1662903160671897', // your App ID
+        'clientSecret'  : '417485cbe8f1be5d6b8827dec52fef20', // your App Secret
+        'callbackURL'   : config.domain + '/auth/facebook/callback'
     },
 
     'twitterAuth' : {

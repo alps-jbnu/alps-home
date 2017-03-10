@@ -16,7 +16,12 @@ router.get('/register', redirectIfLoggedIn, function(req, res) {
 
 router.post('/register', function(req, res) {
   // console.log(req);
-  User.register(new User({ username : req.body.username }), req.body.password, function(err, user) {
+  User.register(new User({
+    username  : req.body.username,
+    firstname : req.body.firstname,
+    lastname  : req.body.lastname,
+    student_id: req.body.student_id
+  }), req.body.password, function(err, user) {
     if (err) {
       var messages = {
         'UserExistsError': '이미 존재하는 아이디입니다.'
@@ -75,10 +80,28 @@ router.get('/auth/google', passport.authenticate('google', { scope : ['profile',
 // the callback after google has authenticated the user
 router.get('/auth/google/return',
   passport.authenticate('google', {
-    successRedirect : '/',
-    failureRedirect : '/login'
+    successRedirect: '/',
+    failureRedirect: '/login'
   })
 );
+
+// =====================================
+// FACEBOOK ROUTES =====================
+// =====================================
+router.get('/auth/facebook', passport.authenticate('facebook', {
+  authType: 'rerequest', scope: ['public_profile', 'email']
+}));
+
+router.get('/auth/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  }), function(req, res) {
+    res.redirect('/');
+  }
+);
+
+// =====================================
 
 function redirectIfLoggedIn(req, res, next){
   if(req.isAuthenticated()){
