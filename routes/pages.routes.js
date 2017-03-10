@@ -11,7 +11,7 @@ router.use(function (req, res, next) {
 });
 
 router.get('/', function(req, res) {
-  res.render('pages/index');
+  res.render('pages/index', { user: req.user });
 });
 
 router.get('/privacy', function(req, res) {

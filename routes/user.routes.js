@@ -8,7 +8,7 @@ router.get('/user', function(req, res) {
   res.json(req.user);
 });
 
-router.get('/register', autoLogout, function(req, res) {
+router.get('/register', redirectIfLoggedIn, function(req, res) {
   res.render('pages/register', {
     user : req.user
   });
@@ -54,9 +54,58 @@ router.get('/logout', autoLogout, function(req, res) {
   res.redirect('/');
 });
 
+router.post('/login',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
+  }), function(req, res) {
+    res.redirect('/');
+  }
+);
+
+// =====================================
+// GOOGLE ROUTES =======================
+// =====================================
+// send to google to do the authentication
+// profile gets us their basic information including their name
+// email gets their emails
+router.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+
+// the callback after google has authenticated the user
+router.get('/auth/google/return',
+  passport.authenticate('google', {
+    successRedirect : '/',
+    failureRedirect : '/login'
+  })
+);
+
+function redirectIfLoggedIn(req, res, next){
+  if(req.isAuthenticated()){
+    res.redirect('/');
+  } else {
+    next();
+  }
+}
+
+function renderIfNotLoggedIn(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  } else {
+    res.render('pages/error', { status: 404, message: 'Not Found' });
+  }
+}
+
 function autoLogout(req, res, next) {
   req.logout();
   next();
+}
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/login');
 }
 
 exports = module.exports = router;
