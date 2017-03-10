@@ -1,5 +1,6 @@
 var express = require('express');
 var request = require('request');
+var moment = require('moment-timezone');
 var router = express.Router();
 
 var waitMember = require('../models/waitMember');
@@ -32,16 +33,15 @@ router.get('/api/waitMember/author/:author', function(req, res){
 // CREATE member
 router.post('/api/waitMember', verifyGoogleReCAPTCHA, function(req, res){
   function makeForm(member){
-    var date = new Date(member.registered_date), timeZoneOffset = +9;
-    var tz = date.getTime() + (date.getTimezoneOffset() * 60000) + (timeZoneOffset * 3600000);
-    date.setTime(tz);
-    
-    var text = "";
-    text += "<p><a class=\"ui label\">이름</a><li>"+member.name+"</li></p>";
-    text += "<p><a class=\"ui label\">연락처</a><li>"+member.phone+"</li></p>";
-    text += "<p><a class=\"ui label\">어떻게 알고 오셨나요?</a><li>"+member.recommend+"</li></p>";
-    text += "<p><a class=\"ui label\">한마디</a><li>"+member.comment+"</li></p>";
-    text += "<br><br><p>" + date.toGMTString() +"&nbsp;에 접수됨.</p>";
+    var date = moment(member.registered_date).tz('Asia/Seoul').format('YYYY/MM/DD hh:mm a z');
+ 
+    var text = "<div class=\"ui container\" style=\"padding: 1em 2em;\">";
+    text += "<p><span class=\"ui label\">이름</span><li>"+member.name+"</li></p>";
+    text += "<p><span class=\"ui label\">연락처</span><li>"+member.phone+"</li></p>";
+    text += "<p><span class=\"ui label\">어떻게 알고 오셨나요?</spaN><li>"+member.recommend+"</li></p>";
+    text += "<p><span class=\"ui label\">한마디</span><li>"+member.comment+"</li></p>";
+    text += "<br><br><p>" + date +"&nbsp;에 접수됨.</p>";
+    text += "</div>";
     return text;
   }
 
@@ -54,7 +54,15 @@ router.post('/api/waitMember', verifyGoogleReCAPTCHA, function(req, res){
     }
 
     var text = makeForm(member);
+<<<<<<< HEAD
     sendEmail(configs.admins, 'ALPS 가입 신청 메일', text);
+=======
+    var emails = [
+      'joonas.yoon@gmail.com',
+//      'dldudgns73@naver.com'
+    ]; 
+    sendEmail(emails, 'ALPS 가입 신청 메일', text);
+>>>>>>> dd0a7a0bf3ef46bd52fb821f004f934aef352291
     res.json({result: 1});
   });
 });
