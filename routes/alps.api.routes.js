@@ -54,15 +54,7 @@ router.post('/api/waitMember', verifyGoogleReCAPTCHA, function(req, res){
     }
 
     var text = makeForm(member);
-<<<<<<< HEAD
     sendEmail(configs.admins, 'ALPS 가입 신청 메일', text);
-=======
-    var emails = [
-      'joonas.yoon@gmail.com',
-//      'dldudgns73@naver.com'
-    ]; 
-    sendEmail(emails, 'ALPS 가입 신청 메일', text);
->>>>>>> dd0a7a0bf3ef46bd52fb821f004f934aef352291
     res.json({result: 1});
   });
 });
