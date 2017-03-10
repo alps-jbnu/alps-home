@@ -4,7 +4,9 @@ var router = express.Router();
 
 var waitMember = require('../models/waitMember');
 
-var sendgrid_key = process.env.SENDGRID_API_KEY || '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';
+var configs = require('../config');
+
+var sendgrid_key = configs.SENDGRID_API_KEY || 'dummy-text';
 var sendgrid = require('sendgrid')(sendgrid_key);
 
 // middleware that is specific to this router
@@ -52,7 +54,7 @@ router.post('/api/waitMember', verifyGoogleReCAPTCHA, function(req, res){
     }
 
     var text = makeForm(member);
-    sendEmail(['joonas.yoon@gmail.com', 'dldudgns73@naver.com'], 'ALPS 가입 신청 메일', text);
+    sendEmail(configs.admins, 'ALPS 가입 신청 메일', text);
     res.json({result: 1});
   });
 });
@@ -74,7 +76,7 @@ function verifyGoogleReCAPTCHA(req, res, next){
     return res.json({"responseCode" : 1, "responseDesc" : "로봇이 아닌 지 확인이 필요합니다."});
   }
   // Put your secret key here.
-  var secretKey = "6LcOthcUAAAAALUeDdO99SguVmFNdKF7IVPcXu2A";
+  var secretKey = configs.googleReCAPTCHA.secretKey;
   // req.connection.remoteAddress will provide IP address of connected user.
   var verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
   // Hitting GET request to the URL, Google will respond with success or error scenario.

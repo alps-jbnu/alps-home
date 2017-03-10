@@ -25,6 +25,11 @@
     background-color: rgba(255,255,255,.25);
     transition: background-color .5s;
 }
+.ui.secondary.inverted.pointing.menu {
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+}
 
 .jumboBackgroundV {
     width: 100%;

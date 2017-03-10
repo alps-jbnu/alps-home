@@ -14,6 +14,8 @@ var session = require('express-session')(
   { secret: 'alps keyboard cat', resave: false, saveUninitialized: false }
 );
 
+var config = require('./config');
+
 //
 // ## SimpleServer `SimpleServer(obj)`
 //
@@ -57,10 +59,10 @@ db.once('open', function(){
     // CONNECTED TO MONGODB SERVER
     console.log("Connected to mongod server");
 });
-mongoose.connect('mongodb://localhost/alps_db');
+mongoose.connect('mongodb://localhost/' + config.database);
 
 // Mail Service (send-grid) API KEY configure
-console.log('SendGrid API KEY: ', process.env.SENDGRID_API_KEY);
+console.log('SendGrid API KEY: ', config.SENDGRID_API_KEY);
 
 // Chat Socket Connection
 var messages = [];
@@ -121,7 +123,7 @@ function broadcast(event, data) {
 }
 
 // Listen Server
-server.listen(process.env.PORT || 80, process.env.IP || "0.0.0.0", function(){
+server.listen(process.env.PORT || config.port, process.env.IP || config.ip || "0.0.0.0", function(){
   var addr = server.address();
   console.log("Chat server listening at", addr.address + ":" + addr.port);
 });
