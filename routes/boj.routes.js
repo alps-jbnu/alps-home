@@ -3,9 +3,12 @@ var request = require('request');
 var cheerio = require('cheerio');
 var router = express.Router();
 
+var permission = require('permission');
+
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
   // console.log('Time: ', Date.now());
+  console.log(req.session);
   next();
 });
 
@@ -15,7 +18,7 @@ router.get('/:username([a-zA-Z0-9]+).json', function(req, res) {
   });
 });
 
-router.get('/', function(req, res) {
+router.get('/', permission(['admin', 'user']), function(req, res) {
   var user = req.param('user');
   
   getJSONProblems(user, function(problems){

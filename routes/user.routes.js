@@ -4,10 +4,6 @@ var router = express.Router();
 
 var User = require('../models/user');
 
-router.get('/user', function(req, res) {
-  res.json(req.user);
-});
-
 router.get('/register', redirectIfLoggedIn, function(req, res) {
   res.render('pages/register', {
     user : req.user
@@ -58,16 +54,6 @@ router.post('/login',
 router.get('/logout', autoLogout, function(req, res) {
   res.redirect('/');
 });
-
-router.post('/login',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true
-  }), function(req, res) {
-    res.redirect('/');
-  }
-);
 
 // =====================================
 // GOOGLE ROUTES =======================

@@ -22,8 +22,8 @@ var config = require('./config');
 // Creates a new instance of SimpleServer with the following options:
 //  * `port` - The HTTP port to listen on. If `process.env.PORT` is set, _it overrides this value_.
 //
-var router = express();
-var server = http.createServer(router);
+var app = express();
+var server = http.createServer(app);
 var io = socketio.listen(server);
 
 var bodyParser = require('body-parser');
@@ -32,37 +32,65 @@ var multer = require('multer'); // v1.0.5
 var upload = multer(); // for parsing multipart/form-data
 var flash = require('connect-flash');
 
-router.use(bodyParser.json()); // for parsing application/json
-router.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-router.use(cookieParser());
-router.use(session);
-router.use(flash());
-router.engine('handlebars', exphbs({defaultLayout: 'main'}));
-router.set('view engine', 'handlebars');
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(cookieParser());
+app.use(session);
+app.use(flash());
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 // set-up passport
-var passport = require('./passport')(router);
+var passport = require('./passport')(app);
 
-router.use('/', require('./routes/pages.routes'));
-router.use('/boj', require('./routes/boj.routes'));
-router.use(express.static(path.resolve(__dirname, 'client')));
-router.use(require('./routes/alps.api.routes'));
-router.use(require('./routes/user.routes'));
+app.use('/', require('./routes/pages.routes'));
+app.use('/boj', require('./routes/boj.routes'));
+app.use(express.static(path.resolve(__dirname, 'client')));
+app.use(require('./routes/alps.api.routes'));
+app.use(require('./routes/user.routes'));
 
-router.use(require('./routes/error.routes'));
+app.use(require('./routes/error.routes'));
 
 // Database Connection
 var mongoose = require('mongoose');
 var db = mongoose.connection;
 db.on('error', console.error);
 db.once('open', function(){
-    // CONNECTED TO MONGODB SERVER
-    console.log("Connected to mongod server");
+  // CONNECTED TO MONGODB SERVER
+  console.log("Connected to mongod server");
 });
 mongoose.connect('mongodb://localhost/' + config.database);
 
 // Mail Service (send-grid) API KEY configure
 console.log('SendGrid API KEY: ', config.SENDGRID_API_KEY);
+
+// set permission
+var notAuthenticated = {
+    flashType: 'error',
+    message: '로그인이 필요한 서비스입니다.',
+    redirect: '/login'
+};
+app.set('permission', {
+    role: 'role',
+    notAuthenticated: notAuthenticated 
+});
+
+// generate admin account
+if( process.env.GENERATE_ADMIN ){
+  var userModel = require('./models/user');
+  var randomPassword = Math.random().toString(36).substr(2);
+  userModel.register(new userModel({
+    username : 'admin',
+    lastname : '관',
+    firstname: '리자',
+    role: 'admin'
+  }), randomPassword, function(err, user) {
+    if(err || !user)
+      console.error('Failed to generate admin.', err);
+    else
+      console.log('Generated admin account. password is \'' + randomPassword + '\'');
+  });
+}
 
 // Chat Socket Connection
 var messages = [];

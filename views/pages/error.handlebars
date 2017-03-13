@@ -1,2 +1,16 @@
-<h1 class="ui center aligned header" style="font-size:10rem; margin-top: 5rem;">{{ status }}</h1>
-<h3 class="ui center aligned header" style="font-size:3rem; margin-top: 10px;">{{ message }}</h3>
+<div class="ui text container">
+    <h1 class="ui center aligned header" style="font-size:10rem; margin-top: 5rem;">
+    {{#if status }}
+        {{ status }}
+    {{else}}
+        404
+    {{/if}}
+    </h1>
+    <h3 class="ui center aligned header" style="font-size:3rem; margin-top: 10px;">
+    {{#if message }}
+        {{ message }}
+    {{else}}
+        Not Found
+    {{/if}}
+    </h3>
+</div>

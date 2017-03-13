@@ -7,7 +7,13 @@ var User = new Schema({
     password: String,
     provider: {
         type: String,
-        default: 'local'
+        default: 'local',
+        getter: getProvider,
+        setter: setProvider
+    },
+    role: {
+        type: String,
+        default: 'user'
     },
     
     // local infomations
@@ -36,6 +42,21 @@ function getOAuthDisplayName(){
     } else {
         return this.lastname + ' ' + this.firstname;
     }
+}
+
+function getProvider(){
+    if(this.google) return 'google';
+    if(this.facebook) return 'facebook';
+    return this.provider;
+}
+
+function setProvider(p){
+    if( this.google )
+        this.provider = 'google';
+    else if( this.facebook )
+        this.provider = 'facebook';
+    else
+        this.provider = p || 'local';
 }
 
 module.exports = mongoose.model('User', User);
