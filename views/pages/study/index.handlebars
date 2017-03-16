@@ -1,0 +1,102 @@
+<div class="ui container">
+  
+  {{> nav }}
+  
+  <h1 class="ui dividing header">알프스의 궁궐에 당도한 것을 환영하오, 낯선이여.</h1>
+  
+  <br>
+  
+  <table class="ui very basic table">
+    <thead>
+      <tr><th>현재 모인 벌금</th>
+      <th>다룬 문제</th>
+      <th>문제 당 벌금</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td>{{ totalPenalty }}원</td>
+        <td>{{ problemList.length }}개 <a href="/study/problems">(자세히)</a></td>
+        <td>500원</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="ui warning message">
+    <i class="close icon"></i>
+    <div class="header">
+      규칙
+    </div>
+    <ul class="list">
+      <li>1주일에 1문제만 해결하면 된다. 즉, 10,080분 동안 고민할 수 있다.</li>
+      <li>자신이 풀어야 하는 문제를 풀지 못하면 (문제 당 벌금) * (풀지 못한 문제 수)만큼 벌금이 누적된다.</li>
+      <li>풀어야 하는 문제보다 더 어려운 문제를 해결하면 벌금을 크게 없앨 수 있다.</li>
+      <li>억울한 경우, 동아리방에서 나는 빡빡이다라고 100번 외치면 봐준다.</li>
+    </ul>
+  </div>
+  
+  <br>
+
+  <table class="ui very basic celled table">
+    <thead>
+      <tr>
+        <th>대상 그룹</th>
+        <th>문제</th>
+        <th>기간</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each problemList}}
+      <tr>
+        <td>
+          <i class="bookmark {{this.target_group.color}} icon"></i>&nbsp;{{this.target_group.name}}
+        </td>
+        <td>
+          <a href="https://www.acmicpc.net/problem/{{this.problem_id}}" target="_blank">
+            {{this.problem_id}}번 - {{this.problem_title}}
+          </a>
+        </td>
+        <td>
+          <b>{{moment this.end_date "YYYY년 MM월 DD일"}}</b>까지
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+  
+  <br>
+  
+  <table class="ui celled striped blue table">
+    <thead>
+      <tr>
+        <th colspan="5">
+          문제 풀이 현황
+        </th>
+      </tr>
+      <tr>
+        <th>이름</th>
+        <th>handle</th>
+        <th>속한 그룹</th>
+        <th>벌금</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each memberList}}
+      <tr>
+        <td>
+          {{this.name}}
+        </td>
+        <td><a href="https://www.acmicpc.net/user/{{this.handle}}" target="_blank">{{this.handle}}</a></td>
+        <td>
+          <i class="bookmark {{this.group.color}} icon"></i>&nbsp;{{this.group.name}}
+        </td>
+        <td class="right aligned">
+          {{#if this.penalty}} {{this.penalty}}
+          {{else}}0
+          {{/if}}원
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+  <br>
+</div>

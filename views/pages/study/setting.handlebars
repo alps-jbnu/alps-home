@@ -1,0 +1,190 @@
+<div class="ui container">
+
+  {{> nav }}
+  
+  <h1 class="ui header">설정</h1>
+  
+  <h2 class="ui dividing header">그룹 설정</h2>
+  <p>
+  그룹 현황 : &nbsp;
+  {{#each groupList}}
+  <a class="ui basic label">
+    <i class="bookmark {{this.color}} icon"></i>
+    {{this.name}}
+  </a>
+  {{/each}}
+  {{#unless groupList}}
+  (없음)
+  {{/unless}}
+  </p>
+  <form class="ui form segment" method="POST" id="groupForm">
+    <input type="hidden" name="formName" value="group" />
+    <div class="two fields">
+      <div class="field">
+        <label>색상</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="color">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Group Name</div>
+          <div class="menu">
+          {{#each groupColorList}}
+            <div class="item" data-value="{{this}}"><i class="bookmark {{this}} icon"></i>{{this}}</div>
+          {{/each}}
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>그룹명</label>
+        <input type="text" name="name" value="" placeholder="그룹 이름" />
+      </div>
+    </div>
+    <div class="ui primary submit button">
+      <i class="add icon"></i>
+      추가
+    </div>
+    <div class="ui error message"></div>
+  </form>
+
+  <br>
+ 
+  <h2 class="ui header">멤버들 정보</h2>
+  
+  <form class="ui form segment" id="addMember" method="POST">
+    <input type="hidden" name="formName" value="add_member" />
+    <div class="three fields">
+      <div class="field">
+        <label>이름</label>
+        <input name="name" type="text" value="">
+      </div>
+      <div class="field">
+        <label>handle</label>
+        <input name="handle" type="text" value="" placeholder="BOJ 아이디">
+      </div>
+      <div class="field">
+        <label>속한 그룹</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="group">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Group Name</div>
+          <div class="menu">
+          {{#each groupList}}
+            <div class="item" data-value="{{this._id}}"><i class="bookmark {{this.color}} icon"></i>{{this.name}}</div>
+          {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui primary submit button">
+      <i class="add icon"></i>
+      추가하기
+    </div>
+    <div class="ui error message"></div>
+  </form>
+  
+  <div>
+    {{#each memberList}}
+      <a href="https://www.acmicpc.net/user/{{this.handle}}" target="_blank" class="ui {{this.group.color}} basic label" style="margin-bottom: 5px;">
+        {{this.name}}
+        <div class="detail">{{this.handle}}</div>
+        <div class="detail">
+          {{#if this.penalty}} {{this.penalty}}
+          {{else}}0
+          {{/if}}원
+        </div>
+      </a>
+    {{/each}}
+  </div>
+  
+  <br>
+  
+  <h2 class="ui header">문제 추가</h2>
+  
+  <form class="ui form segment" id="addProblem" method="POST">
+    <input type="hidden" name="formName" value="add_problem" />
+    <div class="three fields">
+      <div class="field">
+        <label>문제 번호</label>
+        <input name="problem_id" type="text" value="">
+      </div>
+      <div class="field">
+        <label>문제 이름</label>
+        <input name="problem_title" type="text" value="" placeholder="">
+      </div>
+      <div class="field">
+        <label>대상 그룹</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="target_group">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Group Name</div>
+          <div class="menu">
+          {{#each groupList}}
+            <div class="item" data-value="{{this._id}}"><i class="bookmark {{this.color}} icon"></i>{{this.name}}</div>
+          {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <label>시작일</label>
+        <input name="start_date" type="date" value="{{moment format='YYYY-MM-DD'}}">
+      </div>
+      <div class="field">
+        <label>종료일</label>
+        <input name="end_date" type="date" value="2017-01-01">
+      </div>
+    </div>
+    <div class="ui primary submit button">
+      <i class="add icon"></i>
+      추가하기
+    </div>
+    {{#if error_messages}}
+      <div class="ui list">
+      {{#each error_messages}}
+        <div class="item">
+          <i class="warning icon"></i>
+          <div class="content">{{this}}</div>
+        </div>
+      {{/each}}
+      </div>
+    {{/if}}
+    <div class="ui error message"></div>
+  </form>
+  
+  <br><br>
+</div>
+
+<script>
+$(document).ready(function(){
+  $("#groupForm")
+    .form({
+      fields: {
+        color: 'empty',
+        name: 'empty'
+      }
+    })
+  ;
+
+  $('#addMember')
+    .form({
+      fields: {
+        name   : 'empty',
+        handle : 'empty',
+        group  : 'empty'
+      }
+    })
+  ;
+  
+  $('#addProblem')
+    .form({
+      fields: {
+        problem_id    : 'empty',
+        problem_title : 'empty',
+        target_group  : 'empty',
+        start_date    : 'empty',
+        end_date      : 'empty'
+      }
+    })
+  ;
+});
+</script>

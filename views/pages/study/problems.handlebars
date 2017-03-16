@@ -1,0 +1,36 @@
+<div class="ui container">
+
+  {{> nav }}
+  
+  <h1 class="ui header">스터디에서 다룬 문제들</h1>
+  
+  <table class="ui very basic celled table">
+    <thead>
+      <tr>
+        <th>대상 그룹</th>
+        <th>문제</th>
+        <th>기간</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each problemList}}
+      <tr>
+        <td>
+          <i class="bookmark {{this.target_group.color}} icon"></i>&nbsp;{{this.target_group.name}}
+        </td>
+        <td>
+          <a href="https://www.acmicpc.net/problem/{{this.problem_id}}" target="_blank">
+            {{this.problem_id}}번 - {{this.problem_title}}
+          </a>
+        </td>
+        <td>
+          <b>{{moment this.start_date "YYYY년 MM월 DD일"}}</b>부터&nbsp; 
+          <b>{{moment this.end_date "YYYY년 MM월 DD일"}}</b>까지
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+  
+  <br><br>
+</div>

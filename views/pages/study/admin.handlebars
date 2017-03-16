@@ -1,0 +1,78 @@
+<div class="ui container">
+  
+  {{> nav }}
+  
+  <h2 class="ui header">벌금 현황표</h2>
+  
+  <form class="ui form segment" id="addPenalty" action="/study/admin/penalty" method="POST">
+    <div class="four fields">
+      <div class="field">
+        <label>이름</label>
+        <div class="ui selection dropdown">
+          <input type="hidden" name="name">
+          <i class="dropdown icon"></i>
+          <div class="default text">이름</div>
+          <div class="menu">
+          {{#each memberList}}
+            <div class="item" data-value="{{this.name}}">{{this.name}}</div>
+          {{/each}}
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>문제</label>
+        <input name="problem" type="text" value="" placeholder="ex) 1000">
+      </div>
+      <div class="field">
+        <label>이유</label>
+        <input name="why" type="text" value="">
+      </div>
+      <div class="field">
+        <label>벌금</label>
+        <input name="penalty" type="number" value="500">
+      </div>
+    </div>
+    <div class="ui primary submit button">
+      <i class="add icon"></i>
+      추가하기
+    </div>
+    <div class="ui error message"></div>
+  </form>
+  
+  <table class="ui table">
+    <thead>
+      <tr><th class="collapsing">이름</th>
+      <th>해당 문제</th>
+      <th class="center aligned">이유</th>
+      <th class="right aligned">벌금</th>
+      <th class="right aligned collapsing">날짜</th>
+    </tr></thead>
+    <tbody>
+    {{#each penaltyList}}
+      <tr>
+        <td class="collapsing">{{this.name}}</td>
+        <td>{{this.problem}}</td>
+        <td class="center aligned">{{this.why}}</td>
+        <td class="right aligned">{{this.penalty}}원</td>
+        <td class="right aligned collapsing">{{moment this.registered_date format="YYYY/MM/DD hh:mm"}}</td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+
+  <br><br>
+</div>
+
+<script>
+$(document).ready(function(){
+  $('#addPenalty')
+    .form({
+      fields: {
+        name    : 'empty',
+        problem : 'empty',
+        penalty : 'integer'
+      }
+    })
+  ;
+});
+</script>

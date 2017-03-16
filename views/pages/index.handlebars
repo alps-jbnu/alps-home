@@ -33,10 +33,20 @@
           <a data-scroll-href="history" class="item">History</a>
           <a data-scroll-href="contact" class="item">Contact</a>
           {{#if user }}
-          <a class="right main item" href="/logout">
-            <i class="sign out icon"></i>&nbsp;
-            {{ user.displayName }}
-          </a>
+          <div class="right menu">
+            <div class="ui dropdown icon item">
+              <i class="user icon"></i>&nbsp; &nbsp; {{ user.displayName }}
+              <div class="menu">
+                <a href="/study" class="item">
+                  스터디
+                </a>
+                <div class="divider"></div>
+                <a href="/logout" class="item">
+                  <i class="sign out icon"></i>&nbsp;로그아웃
+                </a>
+              </div>
+            </div>
+          </div>
           {{else}}
           <a class="right main item" href="/login">
             <img src="/images/logo.png" />

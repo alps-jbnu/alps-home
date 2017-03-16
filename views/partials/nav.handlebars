@@ -1,0 +1,39 @@
+<div class="ui top attached menu" style="margin-top: 5px">
+  <a href="/" class="item">
+    <img src="/images/logo-invert.png" />
+  </a>
+  <a class="active item" href="/study">
+    Summary
+  </a>
+  
+  {{#if isAdmin}}
+  <a class="item" href="/study/admin">
+    벌금 관리
+  </a>
+  <a class="item" href="/study/admin/setting">
+    환경설정
+  </a>
+  {{/if}}
+  
+  {{#if user}}
+  <div class="right menu">
+    <div class="ui dropdown icon item">
+      <i class="user icon"></i>&nbsp; &nbsp; {{ user.displayName }}
+      <div class="menu">
+        {{#if isAdmin}}
+        <a class="item" href="/study/admin">
+          <i class="wrench icon"></i> 관리모드
+        </a>
+        <div class="divider"></div>
+        {{/if}}
+        <a class="item" href="/login">
+          다른 계정으로..
+        </a>
+        <a class="item" href="/logout">
+          로그아웃
+        </a>
+      </div>
+    </div>
+  </div>
+  {{/if}}
+</div>

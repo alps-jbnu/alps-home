@@ -10,6 +10,12 @@ var async = require('async');
 var socketio = require('socket.io');
 var express = require('express');
 var exphbs  = require('express-handlebars');
+var hbs = exphbs.create({
+    defaultLayout: 'main',
+    helpers: {
+      moment: require('helper-moment')
+    }
+});
 var session = require('express-session')(
   { secret: 'alps keyboard cat', resave: false, saveUninitialized: false }
 );
@@ -37,7 +43,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.use(cookieParser());
 app.use(session);
 app.use(flash());
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 // set-up passport
@@ -45,6 +51,7 @@ var passport = require('./passport')(app);
 
 app.use('/', require('./routes/pages.routes'));
 app.use('/boj', require('./routes/boj.routes'));
+app.use('/study', require('./routes/study.routes'));
 app.use(express.static(path.resolve(__dirname, 'client')));
 app.use(require('./routes/alps.api.routes'));
 app.use(require('./routes/user.routes'));

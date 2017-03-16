@@ -3,7 +3,15 @@ var passport = require('passport');
 var router = express.Router();
 
 var User = require('../models/user');
+var permission = require('permission');
 
+router.get('/user', permission(['admin', 'user']), function(req, res) {
+  res.render('pages/user/' + req.user.provider, {user: req.user});
+});
+
+// =====================================
+// DEFAULT ROUTES (login/register) =====
+// =====================================
 router.get('/register', redirectIfLoggedIn, function(req, res) {
   res.render('pages/register', {
     user : req.user
@@ -43,7 +51,7 @@ router.get('/login', autoLogout, function(req, res) {
 
 router.post('/login',
   passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/study',
     failureRedirect: '/login',
     failureFlash: true
   }), function(req, res) {
@@ -66,7 +74,7 @@ router.get('/auth/google', passport.authenticate('google', { scope : ['profile',
 // the callback after google has authenticated the user
 router.get('/auth/google/return',
   passport.authenticate('google', {
-    successRedirect: '/',
+    successRedirect: '/study',
     failureRedirect: '/login'
   })
 );
@@ -80,7 +88,7 @@ router.get('/auth/facebook', passport.authenticate('facebook', {
 
 router.get('/auth/facebook/callback',
   passport.authenticate('facebook', {
-    successRedirect: '/',
+    successRedirect: '/study',
     failureRedirect: '/login'
   }), function(req, res) {
     res.redirect('/');

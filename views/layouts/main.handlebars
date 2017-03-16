@@ -36,7 +36,7 @@
     
   <!-- floating Top Button -->
   <div class="top-button-wrap">
-    <button id="topButton" data-scroll-href="top" class="circular ui icon blue basic button" style="float: right; display: block;">
+    <button id="topButton" data-scroll-href="top" class="circular ui icon blue basic button" style="float: right; display: none;">
       <i class="icon angle up"></i>
     </button>
   </div>
@@ -59,12 +59,22 @@
       $("body").visibility({
         once: false,
         onPassing: function(){
-          $('#topButton').transition('fade down');
+          $('#topButton').transition('fade up');
         },
         onPassingReverse: function(){
-          $('#topButton').transition('fade up');
+          $('#topButton').transition('fade down');
         }
       });
+      
+      $(".dropdown").dropdown();
+      $('.message .close')
+        .on('click', function() {
+          $(this)
+            .closest('.message')
+            .transition('fade')
+          ;
+        })
+      ;
     })
   ;
   </script>
