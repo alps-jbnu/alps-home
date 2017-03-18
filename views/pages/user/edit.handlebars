@@ -1,0 +1,158 @@
+<style type="text/css">
+  body {
+    background-color: #EFEFEF;
+  }
+  body > .grid {
+    height: 100%;
+  }
+  .image {
+    margin-top: -100px;
+    border-radius: 50%;
+  }
+  .column {
+    max-width: 450px;
+  }
+</style>
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui teal image header">
+      <img src="/images/alps-git.png" class="image">
+      <div class="content">
+        정보 수정
+      </div>
+    </h2>
+    {{#if success}}<div class="ui success message">{{ success }}</div>{{/if}}
+    {{#if error}}
+    <div class="ui error message">{{#each error}}<p>{{ this }}</p>{{/each}}</div>
+    {{/if}}
+    <form class="ui large register form" method="POST">
+      <div class="ui stacked segment">
+      {{#if isLocalProvider}}
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text" placeholder="아이디 또는 이메일" value="{{ user.username }}" disabled>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" placeholder="비밀번호" value="">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="unlock alternate icon"></i>
+            <input type="password" name="new_password" placeholder="비밀번호 변경" value="">
+          </div>
+        </div>
+        
+        <div class="ui divider" style="margin: 2em auto;"></div>
+
+        <div class="two fields">
+          <div class="field">
+            <div class="ui labeled input">
+              <div class="ui label">성</div>
+              <input type="text" name="lastname" placeholder="홍" value="{{ user.lastname }}">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui labeled input">
+              <div class="ui label">이름</div>
+              <input type="text" name="firstname" placeholder="길동" value="{{ user.firstname }}">
+            </div>
+          </div>
+        </div>
+      {{else}}
+        <div class="inline field">
+          <div class="ui {{ user.provider }} plus button">
+            <i class="{{ user.provider }} icon"></i>&nbsp;{{ user.provider }} (으)로 로그인했습니다.
+          </div>
+        </div>
+        <div class="inline field">
+          <label>이름</label>
+          <input type="text" value="{{ user.displayName }}" disabled>
+        </div>
+      {{/if}}
+      
+        <div class="inline field">
+          <label>닉네임</label>
+          <input type="text" name="nickname" placeholder="닉네임" value="{{ user.nickname }}">
+        </div>
+
+        <div class="inline field">
+          <label>학번</label>
+          <input type="text" name="student_id" placeholder="ex) 2019xxxxx" value="{{ user.student_id }}">
+        </div>
+        <div class="g-recaptcha" data-sitekey="6LcOthcUAAAAAD_BUeOqlRlDoUNBVWx3h6Qv28Wf" style="width:100%;"></div>
+        <div class="ui fluid large teal submit button">수정하기</div>
+      </div>
+      
+      <div class="ui error message"></div>
+      
+      <a href="/study" class="ui fluid large default button">돌아가기</a>
+
+    </form>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+  $('.ui.register.form')
+    .form({
+      fields: {
+        password: {
+          rules: [
+            {
+              type   : 'empty',
+              prompt : '비밀번호를 입력해주세요.'
+            },
+            {
+              type   : 'minLength[6]',
+              prompt : '비밀번호가 너무 짧습니다.'
+            }
+          ]
+        },
+        firstname: {
+          rules: [
+            {
+              type   : 'empty',
+              prompt : '이름을 입력해주세요.'
+            }
+          ]
+        },
+        lastname: {
+          rules: [
+            {
+              type   : 'empty',
+              prompt : '성을 입력해주세요.'
+            }
+          ]
+        },
+        nickname: {
+          rules: [
+            {
+              type   : 'maxLength[15]',
+              prompt : '닉네임이 너무 깁니다.'
+            }
+          ]
+        }
+      },
+      on: 'blur',
+      transition: 'fade down', 
+      onSuccess: function(event){
+        if( chkCaptcha() !== false ){
+          // nothing
+        } else {
+          event.preventDefault();
+          $(".form .error.message").html('<li>자동인증방지를 확인해주세요.</li>').transition('fade in');
+        }
+      }
+    })
+  ;
+
+  $('.special.cards .image').dimmer({
+    on: 'hover'
+  });
+});
+</script>

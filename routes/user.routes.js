@@ -6,7 +6,62 @@ var User = require('../models/user');
 var permission = require('permission');
 
 router.get('/user', permission(['admin', 'user']), function(req, res) {
-  res.render('pages/user/' + req.user.provider, {user: req.user});
+  res.render('pages/user/edit', {
+    user: req.user,
+    isLocalProvider: req.user.provider == 'local',
+    success: req.flash('success'),
+    error: req.flash('error')
+  });
+});
+
+router.post('/user', permission(['admin', 'user']), function(req, res) {
+  if( ! req.isAuthenticated() ){
+    return res.render('pages/error');
+  }
+  
+  var user = req.user;
+  var body = req.body;
+  
+  var failedMessage = '수정을 실패했습니다';
+  var successMessage = '정보가 수정되었습니다!';
+  
+  function saveUser(u){
+    u.save(function(err, result){
+      if(err)
+        req.flash('error', failedMessage);
+      else
+        req.flash('success', successMessage);
+  
+      res.redirect('/user');
+    });
+  }
+
+  if(body.student_id) user.student_id = body.student_id;
+  if(body.nickname) user.nickname = body.nickname;
+
+  if(user.provider == 'local'){
+    
+    if(body.new_password && body.new_password.length < 6){
+      req.flash('error', '새 비밀번호가 너무 짧습니다.');
+      res.redirect('/user');
+    } else {
+      user.authenticate(body.password, function(err, model, perr){
+        if(err || !model || perr){
+          req.flash('error', '비밀번호가 일치하지 않습니다.');
+          res.redirect('/user');
+        } else {
+          user.setPassword(body.new_password, function(err, model, perr){
+            if(err || !model || perr){
+              req.flash('error', '비밀번호 변경에 실패했습니다.');
+              res.redirect('/user');
+            } else {
+              saveUser(user);
+            }
+          });
+        }
+      });
+    }
+  }
 });
 
 // =====================================

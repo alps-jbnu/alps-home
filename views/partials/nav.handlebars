@@ -2,7 +2,7 @@
   <a href="/" class="item">
     <img src="/images/logo-invert.png" />
   </a>
-  <a class="active item" href="/study">
+  <a class="item" href="/study">
     Summary
   </a>
   
@@ -20,6 +20,10 @@
     <div class="ui dropdown icon item">
       <i class="user icon"></i>&nbsp; &nbsp; {{ user.displayName }}
       <div class="menu">
+        <a class="item" href="/user">
+          정보 수정
+        </a>
+        <div class="divider"></div>
         {{#if isAdmin}}
         <a class="item" href="/study/admin">
           <i class="wrench icon"></i> 관리모드
