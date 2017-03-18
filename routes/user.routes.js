@@ -50,14 +50,19 @@ router.post('/user', permission(['admin', 'user']), function(req, res) {
           req.flash('error', '비밀번호가 일치하지 않습니다.');
           res.redirect('/user');
         } else {
-          user.setPassword(body.new_password, function(err, model, perr){
-            if(err || !model || perr){
-              req.flash('error', '비밀번호 변경에 실패했습니다.');
-              res.redirect('/user');
-            } else {
-              saveUser(user);
-            }
-          });
+          if( body.new_password ){
+            user.setPassword(body.new_password, function(e, m, p){
+              console.log(e, m, p);
+              if(e || !m || p){
+                req.flash('error', '비밀번호 변경에 실패했습니다.');
+                res.redirect('/user');
+              } else {
+                saveUser(user);
+              }
+            });
+          } else {
+            saveUser(user);
+          }
         }
       });
     }

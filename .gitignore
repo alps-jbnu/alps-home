@@ -61,3 +61,6 @@ typings/
 
 .ignore
 sendgrid.env
+
+# config files (ex. API_KEYS, DOMAINS)
+config/*.js
