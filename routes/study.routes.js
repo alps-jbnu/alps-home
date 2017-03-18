@@ -17,7 +17,7 @@ router.use(permission(['admin', 'user']), function (req, res, next) {
 });
 
 router.get('/', function(req, res) {
-  studyMember.find({}).populate('group').exec(function(err, memberList){
+  studyMember.getList({}, {group: 1, name: 1}, function(err, memberList){
     handleError(err, res);
     
     var totalPenalty = 0;
@@ -30,6 +30,11 @@ router.get('/', function(req, res) {
     studyProblem
       .find({
         "start_date": {"$lte": new Date()}
+      })
+      .sort({
+        end_date: 1,
+        target_group: 1,
+        problem_id: 1
       })
       .populate('target_group')
       .exec(function(err, problemList){
@@ -50,7 +55,7 @@ router.get('/', function(req, res) {
 router.get('/problems', function(req, res) {
   studyProblem
     .find({})
-    .sort({end_date: 'asc', start_date: 'desc'})
+    .sort({end_date: 1, start_date: -1, group: 1, problem_id: 1})
     .populate('target_group')
     .exec(function(err, problemList){
       res.render('pages/study/problems', {
@@ -66,7 +71,7 @@ router.get('/admin', permission(['admin']), function(req, res) {
   studyGroup.find({}, function(err, groupList){
     handleError(err, res);
   
-    studyMember.find({}).populate('group').exec(function(err, memberList){
+    studyMember.getList({}, {group: 1, name: 1}, function(err, memberList){
       handleError(err, res);
 
       studyPenalty
@@ -118,7 +123,7 @@ router.get('/admin/setting', permission(['admin']), function(req, res) {
     'violet', 'purple', 'pink', 'brown', 'grey', 'black'
   ];
   
-  studyMember.find({}).populate('group').exec(function(err, memberList){
+  studyMember.getList({}, {group: 1, name: 1}, function(err, memberList){
     handleError(err, res);
     
     studyGroup.find({}, function(err, groupList){

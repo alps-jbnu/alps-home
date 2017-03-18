@@ -20,6 +20,11 @@ var User = new Schema({
     firstname : String,
     lastname  : String,
     student_id: String,
+    nickname  : {
+        type: String,
+        getter: getNickname,
+        setter: setNickname
+    },
 
     // oauth
     google: Object,
@@ -29,9 +34,9 @@ var User = new Schema({
 User.plugin(passportLocalMongoose);
 
 User.virtual('displayName')
-    .get(getOAuthDisplayName);
+    .get(getDisplayName);
 
-function getOAuthDisplayName(){
+function getDisplayName(){
     var provider = this.provider;
     if( provider == 'google' || this.google ) {
         var name = this.google.name;
@@ -57,6 +62,17 @@ function setProvider(p){
         this.provider = 'facebook';
     else
         this.provider = p || 'local';
+}
+
+function getNickname(){
+    return this.nickname || getDisplayName();
+}
+
+function setNickname(nick){
+    if( ! nick )
+        this.nickname = getDisplayName();
+    else
+        this.nickname = nick;
 }
 
 module.exports = mongoose.model('User', User);

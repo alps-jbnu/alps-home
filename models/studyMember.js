@@ -13,5 +13,16 @@ var studyMemberSchema = new Schema({
         ref: 'studyGroup'
     }
 });
+
+function getList(query, sortQuery, callback){
+    return this
+        .find(query || {})
+        .sort(sortQuery || {})
+        .populate('group')
+        .exec(callback)
+    ;
+}
+
+studyMemberSchema.statics.getList = getList;
  
 module.exports = mongoose.model('studyMember', studyMemberSchema);
