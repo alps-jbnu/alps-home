@@ -1,0 +1,46 @@
+<div class="ui container">
+  {{> nav}}
+  
+  <h1 class="ui header">User List</h1>
+  <table class="ui very basic striped table">
+    <thead>
+      <tr>
+        <th>표시되는 이름</th>
+        <th>아이디</th>
+        <th>학번</th>
+        <th>인증 기관</th>
+        <th class="center aligned collapsing">권한</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each userList}}
+      <tr>
+        <td>{{ this.displayName }}</td>
+        <td>{{ this.username }}</td>
+        <td>{{ this.student_id }}</td>
+        <td>{{ this.provider }}</td>
+        <td class="right aligned collapsing">
+          {{ this.role }}
+          <a href="/user/{{ this._id }}/upgrade"><i class="chevron circle up icon"></i></a>
+          <a href="/user/{{ this._id }}/downgrade"><i class="chevron circle down icon"></i></a>
+        </td>
+        <td class="collapsing">
+          {{!--<a href="">삭제</a>--}}
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+    <tfoot><tr><th colspan="5">
+      <div class="ui right floated pagination menu">
+        <a class="icon item" href="/users">
+          <i class="angle double left icon"></i>
+        </a>
+        {{#each pagination}}
+        <a class="item" href="/users/{{ this }}">{{ this }}</a>
+        {{/each}}
+      </div>
+      </th>
+    </tr></tfoot>
+  </table>
+</div>

@@ -2,10 +2,12 @@ var express = require('express');
 var passport = require('passport');
 var router = express.Router();
 
+var helper = require('./helper');
+
 var User = require('../models/user');
 var permission = require('permission');
 
-router.get('/user', permission(['admin', 'user']), function(req, res) {
+router.get('/user', permission(['guest', 'user', 'admin']), function(req, res) {
   res.render('pages/user/edit', {
     user: req.user,
     isLocalProvider: req.user.provider == 'local',
@@ -14,7 +16,7 @@ router.get('/user', permission(['admin', 'user']), function(req, res) {
   });
 });
 
-router.post('/user', permission(['admin', 'user']), function(req, res) {
+router.post('/user', permission(['guest', 'user', 'admin']), helper.verifyGoogleReCAPTCHA, function(req, res) {
   if( ! req.isAuthenticated() ){
     return res.render('pages/error');
   }
@@ -69,6 +71,72 @@ router.post('/user', permission(['admin', 'user']), function(req, res) {
   }
 });
 
+router.get('/user/:userId/upgrade', permission(['admin']), function(req, res){
+  User.findOne({_id: req.param('userId')}, function(err, user){
+    if(err) return res.render('pages/error', {status: 500, message: err});
+    if(!user) return res.render('pages/error');
+
+    if(user.role == 'guest') user.role = 'user';
+    else if(user.role == 'user') user.role = 'admin';
+    
+    user.save(function(err, result){
+      if(err) return res.render('pages/error', {status: 500, message: err});
+
+      res.redirect(req.header('Referrer'));
+    });
+  });
+});
+
+router.get('/user/:userId/downgrade', permission(['admin']), function(req, res){
+  User.findOne({_id: req.param('userId')}, function(err, user){
+    if(err) return res.render('pages/error', {status: 500, message: err});
+    if(!user) return res.render('pages/error');
+
+    if(user.role == 'admin') user.role = 'user';
+    else if(user.role == 'user') user.role = 'guest';
+    
+    user.save(function(err, result){
+      if(err) return res.render('pages/error', {status: 500, message: err});
+
+      res.redirect(req.header('Referrer'));
+    });
+  });
+});
+
+router.get('/users/:page?', permission(['admin']), function(req, res){
+  var curPage = req.param('page') || 1;
+  if(curPage < 1) curPage = 1;
+
+  const numPerPage = 20;
+  const pageRange = 3;
+  var pagination = [];
+  for(var i=0; i<2*pageRange-1; ++i){
+    var tPage = Number(Number(curPage) +1 + i - pageRange);
+    if(tPage > 0){
+      pagination.push(tPage);
+    }
+  }
+  
+  User
+  .find({})
+  .sort({
+    role: 1,
+    provider: -1,
+    displayName: 1
+  })
+  .skip(numPerPage * (curPage-1))
+  .limit(numPerPage)
+  .exec(function(err, userList){
+    if(err) return res.render('pages/error', {status: 500, message: err});
+    
+    res.render('pages/user/list', {
+      user: req.user,
+      userList: userList,
+      pagination: pagination
+    });
+  });
+});
+
 // =====================================
 // DEFAULT ROUTES (login/register) =====
 // =====================================
@@ -78,7 +146,7 @@ router.get('/register', redirectIfLoggedIn, function(req, res) {
   });
 });
 
-router.post('/register', function(req, res) {
+router.post('/register', helper.verifyGoogleReCAPTCHA, function(req, res) {
   // console.log(req);
   User.register(new User({
     username  : req.body.username,

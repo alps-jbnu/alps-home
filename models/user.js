@@ -13,7 +13,7 @@ var User = new Schema({
     },
     role: {
         type: String,
-        default: 'user'
+        default: 'guest'
     },
     
     // local infomations
@@ -35,6 +35,9 @@ User.plugin(passportLocalMongoose);
 
 User.virtual('displayName')
     .get(getDisplayName);
+    
+User.virtual('isAdmin')
+    .get(function(){return this.role == 'admin';});
 
 function getDisplayName(){
     var provider = this.provider;

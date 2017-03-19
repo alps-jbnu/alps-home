@@ -12,7 +12,7 @@ var studyGroup   = require('../models/studyGroup');
 var studyProblem = require('../models/studyProblem');
 
 // middleware that is specific to this router
-router.use(permission(['admin', 'user']), function (req, res, next) {
+router.use(permission(['guest', 'user', 'admin']), function (req, res, next) {
   next();
 });
 
@@ -42,7 +42,6 @@ router.get('/', function(req, res) {
       
         res.render('pages/study/index', {
           user: req.user,
-          isAdmin: req.user && req.user.role == 'admin',
           memberList: memberList,
           totalPenalty: totalPenalty,
           problemList: problemList
@@ -60,7 +59,6 @@ router.get('/problems', function(req, res) {
     .exec(function(err, problemList){
       res.render('pages/study/problems', {
         user: req.user,
-        isAdmin: req.user && req.user.role == 'admin',
         problemList: problemList
       });
     })
@@ -83,7 +81,6 @@ router.get('/admin', permission(['admin']), function(req, res) {
   
           res.render('pages/study/admin', {
             user: req.user,
-            isAdmin: req.user && req.user.role == 'admin',
             penaltyList: list,
             memberList: memberList,
             groupList: groupList,
@@ -131,7 +128,6 @@ router.get('/admin/setting', permission(['admin']), function(req, res) {
       
       res.render('pages/study/setting', {
         user: req.user,
-        isAdmin: req.user && req.user.role == 'admin',
         memberList: memberList || [],
         groupList: groupList,
         groupColorList: colorList,

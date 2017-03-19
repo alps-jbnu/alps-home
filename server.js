@@ -11,10 +11,8 @@ var socketio = require('socket.io');
 var express = require('express');
 var exphbs  = require('express-handlebars');
 var hbs = exphbs.create({
-    defaultLayout: 'main',
-    helpers: {
-      moment: require('helper-moment')
-    }
+  defaultLayout: 'main',
+  helpers      : require('./hbsHelpers')
 });
 var session = require('express-session')(
   { secret: 'alps keyboard cat', resave: false, saveUninitialized: false }
@@ -77,9 +75,15 @@ var notAuthenticated = {
     message: '로그인이 필요한 서비스입니다.',
     redirect: '/login'
 };
+var notAuthorized = {
+    flashType: 'error',
+    message: '권한이 없습니다.',
+    redirect: '/'
+};
 app.set('permission', {
     role: 'role',
-    notAuthenticated: notAuthenticated 
+    notAuthenticated: notAuthenticated,
+    notAuthorized: notAuthorized
 });
 
 // generate admin account

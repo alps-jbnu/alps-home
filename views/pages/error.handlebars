@@ -1,3 +1,11 @@
+<style>
+img.cat {
+    width:100%;
+    max-width: 400px;
+    margin: 40px auto 0 auto;
+    display:block;
+}
+</style>
 <div class="ui text container">
     <h1 class="ui center aligned header" style="font-size:10rem; margin-top: 5rem;">
     {{#if status }}
@@ -13,4 +21,7 @@
         Not Found
     {{/if}}
     </h3>
+    <div style="text-aligned: center;">
+        <img class="cat" src="https://http.cat/{{#if status }}{{ status }}{{else}}404{{/if}}"/>
+    </div>
 </div>
