@@ -42,7 +42,6 @@ router.post('/user', permission(['guest', 'user', 'admin']), helper.verifyGoogle
   if(body.nickname) user.nickname = body.nickname;
 
   if(user.provider == 'local'){
-    
     if(body.new_password && body.new_password.length < 6){
       req.flash('error', '새 비밀번호가 너무 짧습니다.');
       res.redirect('/user');
@@ -68,6 +67,8 @@ router.post('/user', permission(['guest', 'user', 'admin']), helper.verifyGoogle
         }
       });
     }
+  } else {
+    saveUser(user);
   }
 });
 
