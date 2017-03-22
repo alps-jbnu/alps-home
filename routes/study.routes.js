@@ -27,28 +27,31 @@ router.get('/', function(req, res) {
     totalPenalty = Math.max(totalPenalty, 0);
     
     const oneWeek = 7*24*3600;
-    studyProblem
-      .find({
-        "start_date": {"$lte": new Date()},
-        "end_date": {"$gte": new Date()}
-      })
-      .sort({
-        end_date: 1,
-        target_group: 1,
-        problem_id: 1
-      })
-      .populate('target_group')
-      .exec(function(err, problemList){
-        handleError(err, res);
-      
-        res.render('pages/study/index', {
-          user: req.user,
-          memberList: memberList,
-          totalPenalty: totalPenalty,
-          problemList: problemList
-        });
-      })
-    ;
+    studyProblem.count({}, function(err, problemCount){
+      studyProblem
+        .find({
+          "start_date": {"$lte": new Date()},
+          "end_date": {"$gte": new Date()}
+        })
+        .sort({
+          end_date: 1,
+          target_group: 1,
+          problem_id: 1
+        })
+        .populate('target_group')
+        .exec(function(err, problemList){
+          handleError(err, res);
+        
+          res.render('pages/study/index', {
+            user: req.user,
+            memberList: memberList,
+            totalPenalty: totalPenalty,
+            problemList: problemList,
+            totalProblemCount: problemCount
+          });
+        })
+      ;
+    });
   });
 });
 
