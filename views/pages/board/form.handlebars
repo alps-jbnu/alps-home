@@ -1,0 +1,82 @@
+{{#section "head"}}
+  <link rel="stylesheet" href="/simplemde/dist/simplemde.min.css">
+  <script src="/simplemde/dist/simplemde.min.js"></script>
+{{/section}}
+
+<div class="ui container">
+  {{> nav}}
+  
+  <div class="board menu">
+  {{#each boardMenu}}
+    <a href="{{ this.href }}" class="ui {{this.active}} blue button item">
+      {{ this.name }}
+    </a>
+  {{/each}}
+  </div>
+  
+  {{#if error}}<div class="ui error message">{{error}}</div>{{/if}}
+  <form class="ui form" method="POST" style="margin-top: 20px;">
+    <div class="ui error message"></div>
+    <div class="required field">
+      <label>제목</label>
+      <input type="text" name="title" placeholder="">
+    </div>
+    <div class="field">
+      <label>주제</label>
+      <select class="ui dropdown" name="topic">
+      {{#each boardMenu}}
+        {{#if this.visible}}<option value="{{this.nick}}">{{this.name}}</option>{{/if}}
+      {{/each}}
+      </select>
+    </div>
+    
+    <div class="ui warning message" style="display:block; margin: 30px auto;">
+      <div class="header">
+        마크다운(Markdown)이 처음이신가요?
+      </div>
+      <div class="content" style="padding-top: 10px;">
+        <a href="https://gist.github.com/ihoneymon/652be052a0727ad59601" target="_blank">한글 설명서</a>를 참고해서 작성해보세요!
+      </div>
+      <i class="close icon"></i>
+    </div>
+    
+    <div class="field">
+      <textarea id="editor" name="content"></textarea>
+    </div>
+    
+    <div class="ui divider"></div>
+    <div class="ui primary submit button">글쓰기</div>
+  </form>
+  <br><br>
+</div>
+
+<script>
+$(document).ready(function(){
+  var simplemde = new SimpleMDE({
+		element: document.getElementById("editor"),
+		spellChecker: false,
+		autosave: {
+			enabled: true,
+			unique_id: "editor_saved_{{ sessionId }}",
+		},
+  });
+  simplemde.codemirror.on("change", function(){
+  	document.getElementById('editor').innerHTML = simplemde.value();
+  });
+  
+  $('.ui.form')
+    .form({
+      fields: {
+        title: {
+          rules: [
+            {
+              type   : 'minLength[2]',
+              prompt : '제목이 너무 짧습니다.'
+            }
+          ]
+        }
+      }
+    })
+  ;
+});
+</script>

@@ -1,0 +1,59 @@
+<div class="ui container">
+  {{> nav}}
+  
+  <h1 class="ui header">
+    게시판
+    {{#ifAdmin user}}
+    <small><a href="/board/admin">관리</a></small>
+    {{/ifAdmin}}
+  </h1>
+  
+  <div class="board menu">
+  {{#each boardMenu}}
+    <a href="{{ this.href }}" class="ui {{this.active}} blue button item">
+      {{ this.name }}
+    </a>
+  {{/each}}
+  </div>
+  
+  <table class="ui very basic striped table">
+    <thead><tr>
+      <th>제목</th>
+      <th class="collapsing">주제</th>
+      <th class="collapsing">글쓴이</th>
+      <th class="collapsing">댓글</th>
+      <th class="collapsing">작성일</th>
+    </tr></thead>
+    <tbody>
+    {{#unless boardList}}
+    <tr><td colspan="5" class="center aligned">게시글이 없습니다.</td></tr>
+    {{/unless}}
+    {{#each boardList}}
+    <tr>
+      <td>
+        <a href="/board/view/{{ this._id }}">{{ this.title }}</a>
+      </td>
+      <td class="collapsing">
+        <a href="/board/list/{{this.topic}}">{{ topicToText this.topic}}</a>
+      </td>
+      <td class="collapsing">{{ this.author.displayName }}</td>
+      <td class="collapsing">{{ this.comment }}</td>
+      <td class="collapsing">
+        <a data-tooltip="{{moment this.registered_date format="YYYY년 MM월 DD일 HH시 mm분 ss초"}}" data-inverted="" class="date">{{moment from=this.registered_date}}</a>
+      </td>
+    </tr>
+    {{/each}}
+    </tbody>
+    <tfoot><tr><th colspan="5">
+      <div class="ui right floated pagination menu">
+        <a class="icon item" href="/users">
+          <i class="angle double left icon"></i>
+        </a>
+        {{#each pagination}}
+        <a class="item {{this.active}}" href="{{ this.href }}">{{ this.index }}</a>
+        {{/each}}
+      </div>
+      </th>
+    </tr></tfoot>
+  </table>
+</div>

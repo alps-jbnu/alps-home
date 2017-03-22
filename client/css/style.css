@@ -104,3 +104,22 @@ div.top-button-wrap {
         visibility: visible !important;
     }
 }
+
+.board.menu {
+    padding-top: 1em;
+}
+.segment .board.content blockquote {
+    border-left: 4px solid #22A7F0;
+    margin: 0 auto;
+    padding: .5em 1em .5em 2em;
+}
+.segment .board.content ol>li,
+.segment .board.content ul>li {
+    padding-left: 5px;
+}
+.segment .board.content h1,.segment .board.content h2,.segment .board.content h3,.segment .board.content h4,.segment .board.content h5,.segment .board.content h6 {
+    border-bottom: 1px solid #ccc;
+}
+.header .date {
+    font-weight: normal;
+}

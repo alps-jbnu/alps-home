@@ -50,6 +50,7 @@ var passport = require('./passport')(app);
 app.use('/', require('./routes/pages.routes'));
 app.use('/boj', require('./routes/boj.routes'));
 app.use('/study', require('./routes/study.routes'));
+app.use('/board', require('./routes/board.routes'));
 app.use(express.static(path.resolve(__dirname, 'client')));
 app.use(require('./routes/alps.api.routes'));
 app.use(require('./routes/user.routes'));

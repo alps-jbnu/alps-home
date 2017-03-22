@@ -1,0 +1,101 @@
+{{#section "head"}}
+  <link rel="stylesheet" href="/simplemde/dist/simplemde.min.css">
+  <script src="/simplemde/dist/simplemde.min.js"></script>
+{{/section}}
+
+<div class="ui container">
+  {{> nav}}
+ 
+  <div class="board menu">
+  {{#each boardMenu}}
+    <a href="{{ this.href }}" class="ui {{this.active}} blue button item">
+      {{ this.name }}
+    </a>
+  {{/each}}
+  </div>
+  
+  <h1 class="ui dividing header">{{ board.title }}</h1>
+  <div class="ui top attached header">
+    {{ board.author.displayName }}&nbsp; &nbsp;
+    <a data-tooltip="{{moment board.registered_date format="YYYY년 MM월 DD일 HH시 mm분 ss초"}}" data-inverted="" class="date">{{moment from=board.registered_date}}</a>
+  </div>
+  <div class="ui attached stacked segment">
+    <div class="board content">
+      {{{markdownToHtml board.content }}}
+    </div>
+  </div>
+
+  <div id="comments" style="margin-top: 2em; border-top: 1px solid #ccc; padding-top: 2em;">
+  {{#each comments}}
+    <div class="ui top attached header">
+      {{ this.author.displayName }}&nbsp; &nbsp;
+      <a data-tooltip="{{moment this.registered_date format="YYYY년 MM월 DD일 HH시 mm분 ss초"}}" data-inverted="" class="date">{{moment from=this.registered_date}}</a>
+    </div>
+    <div class="ui attached segment">
+      <div class="board content">
+        {{{markdownToHtml this.content }}}
+      </div>
+    </div>
+  {{/each}}
+  </div>
+  
+  {{#if error}}
+  <div class="ui error message">{{ error }}</div>
+  {{/if}}
+  
+  {{#if user}}
+  
+  <div class="" style="text-align:center;font-size: 16pt;padding-top: 1em;">
+    <button class="ui primary button" id="comment_open">댓글 쓰기</button>
+  </div>
+
+  <div class="ui basic segment" id="comment_box" style="display:none;visible:none;">
+  <div class="ui warning message" style="display:block; margin: 30px auto;">
+    <div class="header">
+      마크다운(Markdown)이 처음이신가요?
+    </div>
+    <div class="content" style="padding-top: 10px;">
+      <a href="https://gist.github.com/ihoneymon/652be052a0727ad59601" target="_blank">한글 설명서</a>를 참고해서 작성해보세요!
+    </div>
+    <i class="close icon"></i>
+  </div>
+    
+  <form method="POST">
+    <textarea id="editor" name="comment"></textarea>
+    
+    <div style="text-align:center;">
+      <button type="submit" class="ui primary submit button">작성하기</button>
+    </div>
+  </form>
+  </div>
+  
+  {{else}}
+  
+  <div class="" style="text-align:center;font-size: 16pt;padding: 2em 1em;">
+    댓글을 작성하려면 <a href="/login">로그인</a>이 필요합니다.
+  </div>
+  
+  {{/if}}
+  <br><br>
+</div>
+
+<script>
+$(document).ready(function(){
+  var simplemde = new SimpleMDE({
+  	element: document.getElementById("editor"),
+  	spellChecker: false,
+  	autosave: {
+  		enabled: true,
+  		unique_id: "editor_saved_{{ board._id }}",
+  	},
+  });
+  simplemde.codemirror.on("change", function(){
+  	document.getElementById('editor').innerHTML = simplemde.value();
+  });
+  
+  $("#comment_open").on('click', function(){
+    $(this).addClass('disabled');
+    $("#comment_box").transition('fade down');
+  });
+});
+</script>
