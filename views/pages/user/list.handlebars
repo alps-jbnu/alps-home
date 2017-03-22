@@ -37,7 +37,7 @@
           <i class="angle double left icon"></i>
         </a>
         {{#each pagination}}
-        <a class="item" href="/users/{{ this }}">{{ this }}</a>
+        <a class="item {{this.active}}" href="/users/{{ this.index }}">{{ this.index }}</a>
         {{/each}}
       </div>
       </th>

@@ -29,7 +29,8 @@ router.get('/', function(req, res) {
     const oneWeek = 7*24*3600;
     studyProblem
       .find({
-        "start_date": {"$lte": new Date()}
+        "start_date": {"$lte": new Date()},
+        "end_date": {"$gte": new Date()}
       })
       .sort({
         end_date: 1,

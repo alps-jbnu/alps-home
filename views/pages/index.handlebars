@@ -27,12 +27,15 @@
           <a class="toc item">
             <i class="sidebar icon"></i>
           </a>
-          <a class="active item" data-scroll-href="top">Home</a>
+          <a class="active item" data-scroll-href="top">
+            <img src="/images/logo.png" />
+          </a>
           <a data-scroll-href="objective" class="item">About</a>
           <a data-scroll-href="activities" class="item">Activities</a>
           <a data-scroll-href="history" class="item">History</a>
           <a data-scroll-href="contact" class="item">Contact</a>
           {{#if user }}
+          <a href="/study" class="item">스터디</a>
           <div class="right menu">
             <div class="ui dropdown icon item">
               <i class="user icon"></i>&nbsp; &nbsp; {{ user.displayName }}
@@ -48,8 +51,8 @@
             </div>
           </div>
           {{else}}
-          <a class="right main item" href="/login">
-            <img src="/images/logo.png" />
+          <a class="right item" href="/login">
+            로그인 / 회원가입
           </a>
           {{/if}}
         </div>
@@ -200,7 +203,7 @@
   <div class="ui vertical main segment" id="contact">
     <div class="ui centered text container">
       <img src="/images/alps-git.png" style="border-radius: 50%;"/>
-      <h1 class="main header">Join us</h1>
+      <h1 class="main header">신입 회원 가입</h1>
       <div class="ui divider main blue"></div>
       <p>ALPS는 열정이 가득한 당신을 항상 원하고 있습니다. </p>
       

@@ -1,5 +1,6 @@
 var express = require('express');
 var passport = require('passport');
+var URL = require('url');
 var router = express.Router();
 
 var helper = require('./helper');
@@ -114,7 +115,7 @@ router.get('/users/:page?', permission(['admin']), function(req, res){
   for(var i=0; i<2*pageRange-1; ++i){
     var tPage = Number(Number(curPage) +1 + i - pageRange);
     if(tPage > 0){
-      pagination.push(tPage);
+      pagination.push({active: tPage == curPage ? 'active':'', index: tPage});
     }
   }
   
@@ -148,7 +149,6 @@ router.get('/register', redirectIfLoggedIn, function(req, res) {
 });
 
 router.post('/register', helper.verifyGoogleReCAPTCHA, function(req, res) {
-  // console.log(req);
   User.register(new User({
     username  : req.body.username,
     firstname : req.body.firstname,
@@ -166,12 +166,16 @@ router.post('/register', helper.verifyGoogleReCAPTCHA, function(req, res) {
     }
 
     passport.authenticate('local')(req, res, function () {
-      res.redirect('/');
+      res.redirect(req.session.returnTo || '/');
     });
   });
 });
 
 router.get('/login', autoLogout, function(req, res) {
+  var path = URL.parse(req.get('Referrer') || '/').path;
+  if(path.match(/^\/login/)) path = '/';
+  req.session.returnTo = path;
+  
   res.render('pages/login', {
     user : req.user,
     error_messages: req.flash('error')
@@ -180,16 +184,15 @@ router.get('/login', autoLogout, function(req, res) {
 
 router.post('/login',
   passport.authenticate('local', {
-    successRedirect: '/study',
     failureRedirect: '/login',
     failureFlash: true
   }), function(req, res) {
-    res.redirect('/');
+    res.redirect(req.session.returnTo || '/');
   }
 );
 
 router.get('/logout', autoLogout, function(req, res) {
-  res.redirect('/');
+  res.redirect(req.get('Referrer') || '/');
 });
 
 // =====================================
@@ -203,9 +206,10 @@ router.get('/auth/google', passport.authenticate('google', { scope : ['profile',
 // the callback after google has authenticated the user
 router.get('/auth/google/return',
   passport.authenticate('google', {
-    successRedirect: '/study',
     failureRedirect: '/login'
-  })
+  }), function(req, res) {
+    res.redirect(req.session.returnTo || '/');
+  }
 );
 
 // =====================================
@@ -217,10 +221,9 @@ router.get('/auth/facebook', passport.authenticate('facebook', {
 
 router.get('/auth/facebook/callback',
   passport.authenticate('facebook', {
-    successRedirect: '/study',
     failureRedirect: '/login'
   }), function(req, res) {
-    res.redirect('/');
+    res.redirect(req.session.returnTo || '/');
   }
 );
 
