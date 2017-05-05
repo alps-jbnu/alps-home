@@ -35,8 +35,8 @@ router.get('/', function(req, res) {
     if(err)
       return res.render('pages/error', {status: 500, message: err});
     
-    res.render('pages/jnupc', {
-      title: '2017 JNUPC - 전북대학교 프로그래명 경진대회',
+    res.render('pages/cupc', {
+      title: '2017 CUPC - 전북대학교 프로그래명 경진대회',
       teamlist: tlist,
       canBeApply: canApply(),
       readyApply: isReady()
@@ -76,7 +76,7 @@ router.post('/', helper.verifyGoogleReCAPTCHA, function(req, res) {
     var ip = result.ip_address.split('.'); ip[2] = '***';
     text += "IP: "+ ip.join('.');
 
-    var mailHeader = '[JNUPC 2017] ';
+    var mailHeader = '[CUPC 2017] ';
     mailHeader += '참가 팀(' + result.name + ') 접수 알림'; 
     helper.sendEmail(configs.admins, mailHeader, text);
 
