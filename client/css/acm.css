@@ -14,11 +14,28 @@ h3.main.header { font-size: 2.5em; }
 h4.main.header { font-size: 2.0em; }
 h5.main.header { font-size: 1.5em; }
 
-#jumbotron {
+#jumbotron_jnupc {
     background-size: cover;
     background-image: url(/images/jnupc/background_2017.png);
     background-position: 50% 50%;
     height: 100vh !important;
+}
+#background_jnupc {
+    background-size: cover;
+    background-image: url(/images/jnupc/0_background.png);
+    background-position: 50% 0%;
+}
+
+#jumbotron_cupc {
+    background-size: cover;
+    background-image: url(/images/cupc/background_2017.png);
+    background-position: 50% 50%;
+    height: 100vh !important;
+}
+#background_cupc {
+    background-size: cover;
+    background-image: url(/images/cupc/0_background.png);
+    background-position: 50% 0%;
 }
 
 #support {
@@ -27,12 +44,7 @@ h5.main.header { font-size: 1.5em; }
     background-position: 50% 0%;
 }
 
-#background0 {
-    background-size: cover;
-    background-image: url(/images/jnupc/0_background.png);
-    background-position: 50% 0%;
-}
-#background0 p {
+#background_jnupc p, #background_cupc p {
     color: #ffffff;
     font-size: 36pt;
 }

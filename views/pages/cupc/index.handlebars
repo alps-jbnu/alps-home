@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/acm.css"/>
-<img src="/images/jnupc/emblem_2017.png" style="display:none;"> <!-- preview image data -->
+<img src="/images/cupc/emblem_2017.png" style="display:none;"> <!-- preview image data -->
 
 <!-- Sidebar Menu -->
 <div class="ui left vertical inverted sidebar labeled icon menu">
@@ -31,7 +31,7 @@
 
 <!-- Page Contents -->
 <div class="pusher">
-  <div class="ui inverted vertical masthead center aligned segment" id="jumbotron_jnupc">
+  <div class="ui inverted vertical masthead center aligned segment" id="jumbotron_cupc">
     <div class="wrapper">
       <div class="ui container">
         <div class="ui large secondary inverted pointing menu">
@@ -39,7 +39,7 @@
             <i class="sidebar icon"></i>
           </a>
           <a class="active item" data-scroll-href="top">
-            <img src="/images/jnupc/logo_2017.png" />
+            <img src="/images/cupc/logo_2017.png" />
           </a>
           <a data-scroll-href="apply" class="item">신청하기</a>
           <a data-scroll-href="rules" class="item">대회 규칙 및 안내</a>
@@ -53,7 +53,7 @@
   
   <div class="ui vertical main segment" id="apply">
     <div class="ui centered text container">
-      <div style="width: 200px;height: 200px;border-radius: 50%;background: url(/images/jnupc/emblem_2017.png);margin: 0 auto;max-width: 300px;background-position: 50% 50%;background-size: cover;">&nbsp;</div>
+      <div style="width: 200px;height: 200px;border-radius: 50%;background: url(/images/cupc/emblem_2017.png);margin: 0 auto;max-width: 300px;background-position: 50% 50%;background-size: cover;">&nbsp;</div>
       {{#if canBeApply}}
       <h1 class="main header">참가 신청하기</h1>
       <div class="ui divider main blue"></div>
@@ -155,11 +155,11 @@
   
   <div class="ui vertical main segment" id="poster" style="background-color: #00ac92;">
     <div class="ui centered container">
-      <img class="ui image" src="/images/jnupc/poster_2017_md.png" style="margin: 0 auto;"/>
+      <img class="ui image" src="/images/cupc/poster_2017_md.png" style="margin: 0 auto;"/>
     </div>
   </div>
 
-  <div class="ui vertical main segment" id="background_jnupc">
+  <div class="ui vertical main segment" id="background_cupc">
     <div class="ui centered container" style="padding: 5rem 0;">
       <p>당신의 열정을 코딩하세요!</p>
     </div>
@@ -257,7 +257,7 @@
     <div class="ui container">
       <div class="ui stackable inverted divided equal height stackable grid">
         <div class="three wide column">
-          <h4 class="ui inverted header">JNUPC</h4>
+          <h4 class="ui inverted header">CUPC</h4>
           <div class="ui inverted link list">
             <a data-scroll-href="apply" class="item">신청하기</a>
             <a data-scroll-href="rules" class="item">대회 규칙 및 안내</a>
@@ -347,7 +347,7 @@ $(document)
       })
     ;
     
-    $('#jumbotron_jnupc')
+    $('#jumbotron_cupc')
       .visibility({
         onUpdate: attachParallax
       })
@@ -359,17 +359,18 @@ $(document)
       })
     ;
     
-    $('#support')
+    $('#jumbotron_cupc')
       .visibility({
         onUpdate: attachParallax
       })
     ;
     
-    $('.ui.form')
-      .form({
-        fields: {
-          teamname: {
-            identifier: 'teamname',
+    $('#background_cupc')
+      .visibility({
+        onUpdate: attachParallax
+      })
+    ;
+       identifier: 'teamname',
             rules: [
               {
                 type   : 'empty',
