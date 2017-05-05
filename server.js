@@ -47,6 +47,9 @@ app.set('view engine', 'handlebars');
 // set-up passport
 var passport = require('./passport')(app);
 
+// JNUPC PAGE
+app.use('/JNUPC', require('./routes/jnupc.routes'));
+
 app.use('/', require('./routes/pages.routes'));
 app.use('/boj', require('./routes/boj.routes'));
 app.use('/study', require('./routes/study.routes'));

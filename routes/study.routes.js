@@ -26,12 +26,11 @@ router.get('/', function(req, res) {
     }
     totalPenalty = Math.max(totalPenalty, 0);
     
-    const oneWeek = 7*24*3600;
+    var now = new Date();
     studyProblem.count({}, function(err, problemCount){
       studyProblem
         .find({
-          "start_date": {"$lte": new Date()},
-          "end_date": {"$gte": new Date()}
+          "end_date": {"$gte": new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)}
         })
         .sort({
           end_date: 1,
