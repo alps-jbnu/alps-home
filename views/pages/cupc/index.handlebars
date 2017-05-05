@@ -353,24 +353,23 @@ $(document)
       })
     ;
     
-    $('#background_jnupc')
-      .visibility({
-        onUpdate: attachParallax
-      })
-    ;
-    
-    $('#jumbotron_cupc')
-      .visibility({
-        onUpdate: attachParallax
-      })
-    ;
-    
     $('#background_cupc')
       .visibility({
         onUpdate: attachParallax
       })
     ;
-       identifier: 'teamname',
+    
+    $('#support')
+      .visibility({
+        onUpdate: attachParallax
+      })
+    ;
+    
+    $('.ui.form')
+      .form({
+        fields: {
+          teamname: {
+            identifier: 'teamname',
             rules: [
               {
                 type   : 'empty',
