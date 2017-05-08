@@ -155,7 +155,7 @@
   
   <div class="ui vertical main segment" id="poster" style="background-color: #00ac92;">
     <div class="ui centered container">
-      <img class="ui image" src="/images/cupc/poster_2017_md.png" style="margin: 0 auto;"/>
+      <img class="ui image" src="/images/cupc/poster_2017_md.png" style="margin: 0 auto; max-width: 720px;"/>
     </div>
   </div>
 
@@ -515,10 +515,12 @@ $(document)
                   
                   var table = document.getElementById('apply_list_table');
                   var row = table.insertRow(table.rows.length);
-                  row.insertCell(0).innerText = response.name;
+                  row.insertCell(0).innerText = response.team;
                   row.insertCell(1).innerText = response.member1;
                   row.insertCell(2).innerText = response.member2;
                   row.insertCell(3).innerText = response.member3;
+
+                  setTimeout(function(){smoothScroll("apply_list");}, 1000);
                 } else {
                   var message = response.responseDesc || '관리자에게 문의하세요';
                   $(".form .error.message").html('<li>' + message + '</li>').transition('fade in');

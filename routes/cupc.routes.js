@@ -82,7 +82,7 @@ router.post('/', helper.verifyGoogleReCAPTCHA, function(req, res) {
 
     res.json({
       result: 1,
-      team: result.teamname,
+      team: result.name,
       member1: result.member1_name,
       member2: result.member2_name,
       member3: result.member3_name
