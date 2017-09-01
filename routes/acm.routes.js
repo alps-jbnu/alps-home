@@ -87,13 +87,13 @@ router.post('/', helper.verifyGoogleReCAPTCHA, function(req, res) {
     var text = "";
     text += "팀 이름: "+ result.name + "<br>";
     text += "연락처: "+ result.phone + "<br>";
-    text += "팀장: "+ result.member1_name + " (" +  result.member1_sid + ")<br>";
-    text += "팀원1: "+ result.member2_name + " (" +  result.member2_sid + ")<br>";
-    text += "팀원2: "+ result.member3_name + " (" +  result.member3_sid + ")<br>";
+    text += "팀장: "+ result.member1_name + " (" +  result.member1_sid + ") / " + result.member1_mail + "<br>";
+    text += "팀원1: "+ result.member2_name + " (" +  result.member2_sid + ") / " + result.member2_mail + "<br>";
+    text += "팀원2: "+ result.member3_name + " (" +  result.member3_sid + ") / " + result.member3_mail + "<br>";
     var ip = result.ip_address.split('.'); ip[2] = '***';
     text += "IP: "+ ip.join('.');
 
-    var mailHeader = '[CUPC 2017] ';
+    var mailHeader = '[ACM-ICPC 2017] ';
     mailHeader += '참가 팀(' + result.name + ') 접수 알림'; 
     helper.sendEmail(configs.admins, mailHeader, text);
 

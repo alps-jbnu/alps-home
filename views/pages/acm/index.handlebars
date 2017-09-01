@@ -95,7 +95,7 @@
         <div class="two fields">
           <div class="field">
             <label>팀 이름</label>
-            <input placeholder="[A-Za-z0-9\s]+의 형식으로 작성해주세요." name="teamname" type="text" required>
+            <input placeholder="[A-Za-z0-9_-.]+의 형식으로 작성해주세요." name="teamname" type="text" required>
           </div>
           <div class="field">
             <label>연락처</label>
@@ -419,6 +419,10 @@ $(document)
               {
                 type   : 'empty',
                 prompt : '팀명을 입력해주세요.'
+              },
+              {
+                type   : 'regExp[/^[A-Za-z0-9_-]+$/]',
+                prompt : '잘못된 문자가 있습니다. 올바른 팀명을 입력해주세요.'
               }
             ]
           },
