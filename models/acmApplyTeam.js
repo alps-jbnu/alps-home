@@ -2,10 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
  
 var acmApplyTeamSchema = new Schema({
-    name: {
-        type: String,
-        unique: true
-    },
+    name: String,
     phone: String,
     member1_name: String,
     member1_sid: String,

@@ -49,8 +49,8 @@ var passport = require('./passport')(app);
 
 // JNUPC PAGE
 app.use('/JNUPC', require('./routes/jnupc.routes'));
-// CUPC PAGE
 app.use('/cupc', require('./routes/cupc.routes'));
+app.use('/acm', require('./routes/acm.routes'));
 
 app.use('/', require('./routes/pages.routes'));
 app.use('/boj', require('./routes/boj.routes'));

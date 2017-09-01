@@ -1,0 +1,625 @@
+<link rel="stylesheet" href="/css/acm.css"/>
+<style>
+.sponsor_1 { max-width: 220px; margin: 5px 10px; }
+.sponsor_2 { max-width: 160px; margin: 5px 10px; }
+</style>
+<img src="/images/cupc/emblem_2017.png" style="display:none;"> <!-- preview image data -->
+
+<!-- Sidebar Menu -->
+<div class="ui left vertical inverted sidebar labeled icon menu">
+  <a data-scroll-href="apply" class="item">
+    <i class="write icon"></i>
+    신청하기
+  </a>
+  <a data-scroll-href="rules" class="item">
+    <i class="alarm outline icon"></i>
+    규칙 및 안내
+  </a>
+  <a data-scroll-href="apply_list" class="item">
+    <i class="users icon"></i>
+    팀 목록
+  </a>
+  <a data-scroll-href="poster" class="item">
+    <i class="image icon"></i>
+    포스터
+  </a>
+  <a data-scroll-href="support" class="item">
+    <i class="idea icon"></i>
+    후원
+  </a>
+  <a data-scroll-href="contact" class="item">
+    <i class="call icon"></i>
+    문의
+  </a>
+</div>
+
+<!-- Page Contents -->
+<div class="pusher">
+  <div class="ui vertical masthead center aligned segment" id="jumbotron_cupc" style="height: 300px !important; background: url('http://icpckorea.org/static/icpc-cover-m.jpg');">
+    <div class="wrapper">
+      <div class="ui container">
+        <div class="ui large secondary pointing menu">
+          <a class="toc item">
+            <i class="sidebar icon"></i>
+          </a>
+          <a class="active item" data-scroll-href="top">
+            <img src="/images/acm/balloon.png" />
+          </a>
+          <a data-scroll-href="apply" class="item">신청하기</a>
+          <a data-scroll-href="rules" class="item">대회 규칙 및 안내</a>
+          <a data-scroll-href="apply_list" class="item">팀 목록</a>
+          <a data-scroll-href="poster" class="item">포스터</a>
+          <a data-scroll-href="contact" class="item">문의</a>
+        </div>
+      </div>
+    </div><!-- wrapper -->
+  </div>
+  
+  <div class="ui vertical segment">
+    <div class="ui centered text container">
+      <br>
+      <h1 style="line-height: 1.75;">
+        2017 한국 대학생 프로그래밍 대회 예선<br>
+        <small>(ACM-ICPC 2017 Korea Site: Daejeon Regional)</small><br>
+        <small>및</small><br>
+        전북대학교 프로그래밍 경진대회
+      </h1>
+      <br>
+    </div>
+  </div>
+  
+  <div class="ui vertical main segment" id="apply">
+    <div class="ui centered text container">
+      <div style="width: 200px;height: 200px;border-radius: 50%;background: url(/images/acm/balloon.png);margin: 0 auto;max-width: 300px;background-position: 50% 50%;background-size: cover;">&nbsp;</div>
+      {{#if canBeApply}}
+      <h1 class="main header">참가 신청하기</h1>
+      <div class="ui divider main blue"></div>
+      <p>당신의 멋진 코드를 보여주세요!</p>
+
+      <div class="ui green message">
+        <i class="close icon"></i>
+        <div class="" style="text-align: center;">
+          참가 시 <b>전공포인트</b>를 부여합니다.
+        </div>
+      </div>
+      
+      <div class="ui red message">
+        <i class="close icon"></i>
+        <div class="header" style="text-align: left;">
+          필독
+        </div>
+        <p style="text-align: left;">등록을 하기 전에 <b><a href="/acm/readme">이 글</a></b>을 반드시 먼저 읽어주세요.</p>
+      </div>
+
+      <form class="ui form segment" method="POST">
+        <div class="two fields">
+          <div class="field">
+            <label>팀 이름</label>
+            <input placeholder="[A-Za-z0-9\s]+의 형식으로 작성해주세요." name="teamname" type="text" required>
+          </div>
+          <div class="field">
+            <label>연락처</label>
+            <input placeholder="Phone Number" name="phone" type="text">
+          </div>
+        </div>
+        <div class="three fields">
+          <div class="field">
+            <label>팀장 이름</label>
+            <input placeholder="김레드" name="member1_name" type="text" required>
+          </div>
+          <div class="field">
+            <label>팀장 학번</label>
+            <input placeholder="201XXXXXX" type="text" name="member1_sid">
+          </div>
+          <div class="field">
+            <label>팀장 ACM ID</label>
+            <input placeholder="email@example.com" type="email" name="member1_mail">
+          </div>
+        </div>
+        <div class="three fields">
+          <div class="field">
+            <label>팀원1 이름</label>
+            <input placeholder="이블루" name="member2_name" type="text" required>
+          </div>
+          <div class="field">
+            <label>팀원1 학번</label>
+            <input placeholder="201XXXXXX" type="text" name="member2_sid">
+          </div>
+          <div class="field">
+            <label>팀원1 ACM ID</label>
+            <input placeholder="email@example.com" type="email" name="member2_mail">
+          </div>
+        </div>
+        
+        <div class="three fields">
+          <div class="field">
+            <label>팀원2 이름</label>
+            <input placeholder="박핑크" name="member3_name" type="text" required>
+          </div>
+          <div class="field">
+            <label>팀원2 학번</label>
+            <input placeholder="201XXXXXX" type="text" name="member3_sid">
+          </div>
+          <div class="field">
+            <label>팀원2 ACM ID</label>
+            <input placeholder="email@example.com" type="email" name="member3_mail">
+          </div>
+        </div>
+        
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" name="terms">
+            <label><a href="/privacy" target="_blank">개인정보처리방침</a>에 동의합니다.</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" name="agreerule">
+            <label><a data-scroll-href="rules">대회 규칙</a>을 읽었으며 이를 동의하고 준수하겠습니다.</label>
+          </div>
+        </div>
+        <div class="g-recaptcha" data-sitekey="6LcOthcUAAAAAD_BUeOqlRlDoUNBVWx3h6Qv28Wf" style="width:100%;"></div>
+        <div class="ui primary submit button">신청하기</div>
+        <div class="ui error message"></div>
+      </form>
+      
+      <div class="ui icon success message" style="display: none;">
+        <i class="notched check icon"></i>
+        <div class="content">
+          <div class="header">
+            감사합니다!
+          </div>
+          <p>신청이 성공적으로 완료되었습니다.<br> 빠른 시일 내에 연락드리겠습니다.</p>
+        </div>
+      </div>
+      
+      <div class="ui red message">
+        <i class="close icon"></i>
+        <div class="header" style="text-align: left;">
+          주의하세요!
+        </div>
+        <p style="text-align: left;">신청된 이후에는 문의를 통해 변경하실 수 있습니다.</p>
+      </div>
+      {{else if readyApply}}
+      <h1 class="main header">신청 준비중</h1>
+      <div class="ui divider main blue"></div>
+      <p>대회 참가 신청이 준비중입니다.</p>
+      <p>조금만 기다려주세요! 곧 시작됩니다!</p>
+      {{else}}
+      <h1 class="main header">신청 마감</h1>
+      <div class="ui divider main blue"></div>
+      <p>대회 참가 신청이 마감되었습니다.</p>
+      <p>신청해주신 모든 분께 감사드립니다. 즐거운 코딩 되시길 바랍니다!</p>
+      {{/if}}
+      
+      <p><button data-scroll-href="apply_list" class="ui button">참가 팀 목록 보기</button></p>
+    </div>
+  </div>
+  
+  <div class="ui vertical main segment" id="poster">
+    <div class="ui centered container">
+      <img class="ui image" src="/images/acm/poster-2017.png" style="margin: 0 auto; width: 100%; max-width: 720px;"/>
+    </div>
+  </div>
+
+  <div class="ui vertical main segment" id="background_cupc">
+    <div class="ui centered container" style="padding: 5rem 0;">
+      <p>당신의 열정을 코딩하세요!</p>
+    </div>
+  </div>
+  
+  <div class="ui vertical main segment" id="rules">
+    <div class="ui centered container">
+      <h1 class="main header">대회 규칙 및 안내</h1>
+      <div class="ui divider main blue"></div>
+      <br>
+      
+      <p>본 대회는 <a href="https://icpc.baylor.edu/regionals/rules" target="_blank">ACM-ICPC 국제규칙</a>을 채택하고 있으며,</p>
+      <p><b>2017년 한국 대학생 프로그래밍 경진대회</b>의 예선과 <b>전북대학교 프로그래밍 대회를 함께 진행</b>하고 있습니다.</p>
+      <p>원활한 진행을 위해 등록 전, 반드시 <b><a href="/acm/readme">이 글</a></b>을 읽어 주시기 바랍니다.</p>
+      <br>
+      
+      <p>
+        대회는 <strong>Web 기반 채점 시스템인 DOMjudge</strong>(<a href="https://www.domjudge.org/">https://www.domjudge.org/</a>) 를 사용합니다.<br>
+        반드시 예비소집을 통해 진행 방식과 사용법을 익히시기를 권장합니다.
+      </p>
+      <br>
+      <p>
+        반드시 <b><u>3인 1팀</u></b>으로 등록 및 출전하셔야하며, 대회 시작 30분 전까지 모든 팀원이 참석하셔야합니다.<br>
+        2대 이상의 컴퓨터(모바일 포함)를 사용하는 것은 부정행위이며, <br>
+        <u><b>접속 IP 검사, 중복 로그인 검사</b> 등을 통해 부정행위가 적발되는 경우에는 실격되며 일정기간동안 대회 참가가 제한</u>됩니다.
+      </p>
+      <p>대회 중에는 프로그래밍 언어별 공식 <a href="/acm/references">Reference Site</a> 와 대회 홈페이지를 제외한 웹사이트 및 인터넷 사용은 일체 허용되지 않습니다.</p>
+      <br>
+      <p>자세한 내용은 ACM-ICPC 대전 지역대회 홈페이지(<a href="http://icpckorea.org" target="_blank">http://icpckorea.org</a>)에서 확인하실 수 있습니다.</p>
+    </div>
+  </div>
+  
+  <div class="ui vertical main segment" id="apply_list">
+    <div class="ui centered container">
+      <h1 class="main header">참가 팀 목록</h1>
+      <div class="ui divider main blue"></div>
+      
+      <table class="ui single line striped table" id="apply_list_table">
+        <thead>
+          <tr>
+            <th>팀 이름</th>
+            <th>팀원1</th>
+            <th>팀원2</th>
+            <th>팀원3</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each teamlist}}
+          <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.member1_name}}</td>
+            <td>{{this.member2_name}}</td>
+            <td>{{this.member3_name}}</td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <div class="ui vertical main segment" id="support">
+    <div class="ui centered container">
+      <h3 class="main header">본선 후원</h3>
+      <div class="ui divider main blue"></div>
+      <img class="sponsor_1" src="http://icpckorea.org/images/sponsors/msit.jpg" />
+      <img class="sponsor_1" src="http://icpckorea.org/images/sponsors/nia.png" />
+      <img class="sponsor_1" src="http://icpckorea.org/images/sponsors/kiise.jpg" />
+      <br>
+      <img class="sponsor_2" src="http://icpckorea.org/images/sponsors/kaist.png" />
+      <img class="sponsor_2" src="http://icpckorea.org/images/sponsors/nexon.png" />
+      <img class="sponsor_2" src="http://icpckorea.org/images/sponsors/samsung_sds.jpg" />
+      <img class="sponsor_2" src="http://icpckorea.org/images/sponsors/naver.jpg" />
+      <br><br>
+      
+      <h3 class="main header">교내 대회 주최/주관</h3>
+      <div class="ui divider main blue"></div>
+      <img src="https://cse.chonbuk.ac.kr/layouts/cse/img/logo.png" />
+      <br>
+      <img class="sponsor_2" src="/images/acm/alps.png" />
+      <br><br>
+    </div>
+  </div>
+  
+  <div class="ui vertical main segment" id="contact">
+    <div class="ui centered container">
+      <h2 class="main header">문의</h2>
+      <div class="ui divider main blue"></div>
+      
+      <br>
+      <h5 class="main header">이영훈 010.2996.3435</h5>
+      <div class="ui horizontal divider">또는</div>
+      <h5 class="main header">alps.jbnu@gmail.com 으로 연락해주세요.</h5>
+    </div>
+  </div>
+
+  <div class="ui inverted vertical footer segment">
+    <div class="ui container">
+      <div class="ui stackable inverted divided equal height stackable grid">
+        <div class="three wide column">
+          <h4 class="ui inverted header">ACM-ICPC</h4>
+          <div class="ui inverted link list">
+            <a data-scroll-href="apply" class="item">신청하기</a>
+            <a data-scroll-href="rules" class="item">대회 규칙 및 안내</a>
+            <a data-scroll-href="apply_list" class="item">팀 목록</a>
+            <a data-scroll-href="poster" class="item">포스터</a>
+            <a data-scroll-href="contact" class="item">문의</a>
+          </div>
+        </div>
+        <div class="three wide column">
+          <h4 class="ui inverted header">Services</h4>
+          <div class="ui inverted link list">
+            <a href="http://ssea.jbnu.ac.kr" class="item">Samsung Software Education Advancement</a>
+            <a href="http://litmus.jbnu.ac.kr" class="item">Litmus Online Judge</a>
+          </div>
+        </div>
+        <div class="seven wide column">
+          <h4 class="ui inverted header">Contact us</h4>
+          <p><a href="mailto:alps.jbnu@gmail.com" class="footer link">alps.jbnu@gmail.com</a></p>
+          <p>Since 2005-04-23</p>
+          <p style="color: #999;">Copyright 2005-2017 by ALPS. All Rights Reserved.</p>
+          
+          <div class="ui inverted link list">
+            <a href="https://www.facebook.com/alps05" class="ui circular facebook icon button">
+              <i class="facebook f icon"></i>
+            </a>
+            <a href="https://alps-jbnu.slack.com" class="ui circular slack icon button">
+              <i class="slack icon"></i>
+            </a>
+            <button class="ui circular google plus icon button">
+              <i class="google plus icon"></i>
+            </button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/vide/dist/jquery.vide.min.js"></script>
+<script>
+$(document)
+  .ready(function() {
+    // fix menu when passed
+    $('.masthead')
+      .visibility({
+        once: false,
+        onBottomPassed: function() {
+          $('.fixed.menu').transition('fade in');
+        },
+        onBottomPassedReverse: function() {
+          $('.fixed.menu').transition('fade out');
+        }
+      })
+    ;
+
+    // create sidebar and attach to menu open
+    $('.ui.sidebar')
+      .sidebar('attach events', '.toc.item')
+    ;
+    
+    window.onscroll = function(){
+    };
+    
+    function calculatePercentageParallax(calculations){
+      var currentWindowY = window.pageYOffset;
+      var startYOffset = calculations.top - 2 * calculations.height;
+      var abstHeight = calculations.bottom - startYOffset;
+      var percentage = (currentWindowY - startYOffset) / abstHeight * 75.;
+      percentage = Math.max(0, Math.min(100, percentage));
+      return percentage;
+    }
+    
+    function attachParallax(calculations){
+          // do something whenever calculations adjust
+          if(calculations.onScreen){
+            var percentage = calculatePercentageParallax(calculations);
+            this.style.backgroundPositionY = percentage +'%';
+          }
+    }
+    
+    $('.segment img')
+      .visibility({
+        type       : 'image',
+        transition : 'fade in',
+        duration   : 1000
+      })
+    ;
+    
+    $('#jumbotron_cupc')
+      .visibility({
+        onUpdate: attachParallax
+      })
+    ;
+    
+    $('#background_cupc')
+      .visibility({
+        onUpdate: attachParallax
+      })
+    ;
+    
+    $('#support')
+      .visibility({
+        onUpdate: attachParallax
+      })
+    ;
+    
+    $('.ui.form')
+      .form({
+        fields: {
+          teamname: {
+            identifier: 'teamname',
+            rules: [
+              {
+                type   : 'empty',
+                prompt : '팀명을 입력해주세요.'
+              }
+            ]
+          },
+          phone: {
+            identifier: 'phone',
+            rules: [
+              {
+                type   : 'empty',
+                prompt : '연락처를 입력해주세요.'
+              }
+            ]
+          },
+          member1_name: {
+            identifier: 'member1_name',
+            rules: [
+              {
+                type   : 'empty',
+                prompt : '[팀장] 이름을 입력해주세요.'
+              },
+              {
+                type   : 'minLength[2]',
+                prompt : '[팀장] 적절하지 못한 이름의 길이입니다.'
+              }
+            ]
+          },
+          member1_sid: {
+            identifier: 'member1_sid',
+            rules: [
+              {
+                type   : 'empty',
+                prompt : '[팀장] 학번을 입력해주세요.'
+              },
+              {
+                type   : 'minLength[9]',
+                prompt : '[팀장] 잘못된 학번입니다.'
+              },
+              {
+                type   : 'number',
+                prompt : '[팀장] 잘못된 학번입니다.'
+              }
+            ]
+          },
+          member1_mail: {
+            identifier: 'member1_mail',
+            rules: [
+              {
+                type   : 'empty',
+                prompt : '[팀장] ACM ID를 입력해주세요.'
+              },
+              {
+                type   : 'email',
+                prompt : '[팀장] 잘못된 이메일 주소입니다.'
+              }
+            ]
+          },
+          member2_name: {
+            identifier: 'member2_name',
+            rules: [
+              {
+                type   : 'empty',
+                prompt : '[팀원1] 이름을 입력해주세요.'
+              },
+              {
+                type   : 'minLength[2]',
+                prompt : '[팀원1] 적절하지 못한 이름의 길이입니다.'
+              }
+            ]
+          },
+          member2_sid: {
+            identifier: 'member2_sid',
+            rules: [
+              {
+                type   : 'empty',
+                prompt : '[팀원1] 학번을 입력해주세요.'
+              },
+              {
+                type   : 'minLength[9]',
+                prompt : '[팀원1] 잘못된 학번입니다.'
+              },
+              {
+                type   : 'number',
+                prompt : '[팀원1] 잘못된 학번입니다.'
+              }
+            ]
+          },
+          member2_mail: {
+            identifier: 'member2_mail',
+            rules: [
+              {
+                type   : 'empty',
+                prompt : '[팀원1] ACM ID를 입력해주세요.'
+              },
+              {
+                type   : 'email',
+                prompt : '[팀원1] 잘못된 이메일 주소입니다.'
+              }
+            ]
+          },
+          member3_name: {
+            identifier: 'member3_name',
+            rules: [
+              {
+                type   : 'empty',
+                prompt : '[팀원2] 이름을 입력해주세요.'
+              },
+              {
+                type   : 'minLength[2]',
+                prompt : '[팀원2] 적절하지 못한 이름의 길이입니다.'
+              }
+            ]
+          },
+          member3_sid: {
+            identifier: 'member3_sid',
+            rules: [
+              {
+                type   : 'empty',
+                prompt : '[팀원2] 학번을 입력해주세요.'
+              },
+              {
+                type   : 'regExp[/^[0-9]{9}$/]',
+                prompt : '[팀원2] 잘못된 학번입니다.'
+              }
+            ]
+          },
+          member3_mail: {
+            identifier: 'member3_mail',
+            rules: [
+              {
+                type   : 'empty',
+                prompt : '[팀원2] ACM ID를 입력해주세요.'
+              },
+              {
+                type   : 'email',
+                prompt : '[팀원2] 잘못된 이메일 주소입니다.'
+              }
+            ]
+          },
+          terms: {
+            identifier: 'terms',
+            rules: [
+              {
+                type   : 'checked',
+                prompt : '개인정보처리방침 동의가 필요합니다.'
+              }
+            ]
+          },
+          agreerule: {
+            identifier: 'agreerule',
+            rules: [
+              {
+                type   : 'checked',
+                prompt : '대회 규칙을 확인하셨나요?'
+              }
+            ]
+          }
+        },
+        on: 'blur',
+        transition: 'fade down', 
+        onSuccess: function(event){
+          event.preventDefault();
+          var cap = chkCaptcha();
+          console.log(cap);
+          if(cap !== false){
+            $(this).ajaxSubmit({
+              beforeSubmit: function(form) {
+                $(".form .submit.button").addClass('loading disabled');
+                return true;
+              },
+              error: function(xhr) {
+                console.error('Error: ' + xhr.status);
+              },
+              success: function(response) {
+                console.log('response: ', response);
+                if(response.result == 1){
+                  $('.form').form('reset');
+                  $(".message").transition('fade out');
+                  $(".success.message").transition('fade in');
+                  
+                  var table = document.getElementById('apply_list_table');
+                  var row = table.insertRow(table.rows.length);
+                  row.insertCell(0).innerText = response.team;
+                  row.insertCell(1).innerText = response.member1;
+                  row.insertCell(2).innerText = response.member2;
+                  row.insertCell(3).innerText = response.member3;
+
+                  setTimeout(function(){smoothScroll("apply_list");}, 1000);
+                } else {
+                  var message = response.responseDesc || '관리자에게 문의하세요';
+                  $(".form .error.message").html('<li>' + message + '</li>').transition('fade in');
+                }
+                
+                $(".form .submit.button").removeClass('loading disabled');
+              }
+            }); 
+          } else {
+            $(".form .error.message").html('<li>자동인증방지를 확인해주세요.</li>').transition('fade in');
+          }
+          return false;
+        }
+      })
+    ;
+  })
+;
+</script>
