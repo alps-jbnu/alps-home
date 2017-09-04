@@ -1,0 +1,169 @@
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
+<script src="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.js"></script>
+
+<div class="ui container">
+  
+  {{> nav }}
+  
+  <h1>스터디 등록/신청</h1>
+  
+  <button id="view_add_study" class="ui button">등록하기</button>
+  
+  <div class="ui vertical segment" style="display: none;" id="add_study">
+    <form class="ui form segment" method="POST">
+      <div class="two fields">
+        <div class="field">
+          <label>스터디명</label>
+          <input placeholder="주제 또는 구분할 수 있는 이름" name="study_name" type="text" required />
+        </div>
+        <div class="field">
+          <label>만든이</label>
+          <input name="study_creator" type="text" value="{{ user.displayName }} (나)" disabled />
+        </div>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <label>시작 일</label>
+          <div class="ui calendar" id="study_start">
+            <div class="ui input left icon">
+              <i class="calendar icon"></i>
+              <input type="text" name="study_start" placeholder="시작 날짜">
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>종료 일</label>
+          <div class="ui calendar" id="study_end">
+            <div class="ui input left icon">
+              <i class="calendar icon"></i>
+              <input type="text" name="study_end" placeholder="종료 날짜">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center;">
+        <div class="ui primary submit button">등록하기</div>
+        <div class="ui error message"></div>
+      </div>
+    </form>
+  </div>
+
+  <div class="ui vertical segment">
+      <table class="ui single line striped table">
+        <thead>
+          <tr>
+            <th width="400">스터디 이름</th>
+            <th>만든이</th>
+            <th>참여 인원</th>
+            <th>기간</th>
+            <th>신청</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each list}}
+          <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.creator.displayName}}</td>
+            <td>{{this.members.length}}명</td>
+            <td>{{moment this.start_date "YYYY년 MM월 DD일"}} ~ {{moment this.end_date "YYYY년 MM월 DD일"}}</td>
+            <td>
+              <a href="/study/apply/select/{{this._id}}">
+                {{#if this.checked }}
+                <i class="check square icon"></i>
+                {{else}}
+                <i class="square outline icon"></i>
+                {{/if}}
+              </a>
+              <a class="detail_study" data-id="{{this.id}}"  style="cursor: pointer;">
+                <i class="help circle icon"></i>
+              </a>
+              {{#if this.canDelete}}
+              <a href="/study/apply/delete/{{this._id}}">
+                <i class="trash outline icon"></i>
+              </a>
+              {{/if}}
+              <div style="display: none;" id="hidden_members_{{this._id}}">
+                {{#each this.members}}
+                <a class="ui label">{{ this.displayName }}</a>
+                {{/each}}
+              </div>
+            </td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+  </div>
+</div>
+
+<div class="ui modal" id="detail_modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Study Members
+  </div>
+  <div class="content">
+    <div class="ui header">
+      이 스터디에 참여중인 사람들
+    </div>
+    <div id="detail_members"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+  $('#view_add_study').click(function(e){
+    $("#add_study").transition('drop');
+  });
+
+  $('#study_start').calendar({
+    type: 'date',
+    endCalendar: $('#study_end')
+  });
+  $('#study_end').calendar({
+    type: 'date',
+    startCalendar: $('#study_start')
+  });
+  
+  $('.ui.form')
+    .form({
+      fields: {
+        study_name: {
+          identifier: 'study_name',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : '제목을 입력해주세요.'
+            }
+          ]
+        },
+        study_start: {
+          identifier: 'study_start',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : '시작일을 선택해주세요.'
+            }
+          ]
+        },
+        study_end: {
+          identifier: 'study_end',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : '종료일을 선택해주세요.'
+            }
+          ]
+        }
+      }
+    })
+  ;
+  
+  $(".detail_study").click(function(e){
+    var cont = $("#detail_members");
+    var id = $(this).data('id');
+    cont.html($("#hidden_members_" + id).html());
+    $("#detail_modal").modal('show');
+  });
+});
+</script>

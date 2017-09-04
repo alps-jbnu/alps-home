@@ -2,6 +2,7 @@ var express = require('express');
 var request = require('request');
 var cheerio = require('cheerio');
 var moment  = require('moment');
+var mongoose = require('mongoose');
 var router = express.Router();
 
 var permission = require('permission');
@@ -10,6 +11,7 @@ var studyPenalty = require('../models/studyPenalty');
 var studyMember  = require('../models/studyMember');
 var studyGroup   = require('../models/studyGroup');
 var studyProblem = require('../models/studyProblem');
+var studyApply   = require('../models/studyApply');
 
 // middleware that is specific to this router
 router.use(permission(['guest', 'user', 'admin']), function (req, res, next) {
@@ -54,10 +56,84 @@ router.get('/', function(req, res) {
   });
 });
 
+router.get('/apply/select/:id', permission(['user', 'admin']), function(req, res) {
+  var id = req.param('id');
+  var redirectPath = '/study/apply';
+  studyApply.findById(id, function(err, entry){
+    if( err || ! entry ) handleError(err);
+    
+    if( entry.members.indexOf(req.user._id) == -1 ){
+      entry.members.addToSet(req.user._id);
+    } else {
+      entry.members.pull(mongoose.Types.ObjectId(req.user._id));
+    }
+
+    entry.save(function(e, members){
+      if(e || !members) handleError(e);
+      res.redirect(redirectPath);
+    });
+  });
+});
+
+router.get('/apply/delete/:id', permission(['user', 'admin']), function(req, res) {
+  console.log('delete');
+  studyApply
+    .remove({_id: req.param('id'), creator: req.user}, function(err){
+      if(err) return handleError(err);
+      console.log('ok');
+      res.redirect('/study/apply');
+    })
+  ;
+});
+
+router.get('/apply', function(req, res) {
+  studyApply
+    .find({
+      available: true
+    })
+    .sort({
+      start_date: -1,
+      end_date: -1,
+      registered_date: 1
+    })
+    .populate('creator')
+    .populate('members')
+    .exec(function(err, applyList){
+      handleError(err, res);
+      
+      var myStr = JSON.stringify(req.user);
+      for(var i in applyList){
+        var cur = applyList[i];
+        applyList[i].checked = JSON.stringify(cur.members).match(myStr);
+        applyList[i].canDelete = JSON.stringify(cur.creator).match(myStr);
+      }
+      res.render('pages/study/apply', {
+        user: req.user,
+        list: applyList
+      });
+    })
+  ;
+});
+
+router.post('/apply', permission(['user', 'admin']), function(req, res) {
+  var newStudy = new studyApply();
+  newStudy.name = req.body.study_name;
+  newStudy.creator = req.user._id;
+  newStudy.start_date = new Date(req.body.study_start);
+  newStudy.end_date = new Date(req.body.study_end);
+  newStudy.members = [ req.user ];
+  newStudy.save(function(err, result){
+    handleError(err, res);
+
+    req.flash('success', '성공적으로 등록했습니다.');
+    res.redirect('/study/apply');
+  });
+});
+
 router.get('/problems', function(req, res) {
   studyProblem
     .find({})
-    .sort({end_date: 1, start_date: -1, group: 1, problem_id: 1})
+    .sort({end_date: -1, start_date: 1, group: 1, problem_id: 1})
     .populate('target_group')
     .exec(function(err, problemList){
       res.render('pages/study/problems', {
