@@ -5,6 +5,9 @@
   "main": "server.js",
   "repository": "",
   "author": "Joonas Yoon <joonas.yoon@gmail.com>",
+  "scripts": {
+    "prestart": "service mongod start"
+  },
   "dependencies": {
     "async": "~0.2.8",
     "better-console": "^1.0.0",
