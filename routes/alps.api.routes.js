@@ -32,14 +32,14 @@ router.get('/api/waitMember/author/:author', function(req, res){
 router.post('/api/waitMember', helper.verifyGoogleReCAPTCHA, function(req, res){
   function makeForm(member){
     var date = moment(member.registered_date).tz('Asia/Seoul').format('YYYY/MM/DD hh:mm a z');
- 
-    var text = "<div class=\"ui container\" style=\"padding: 1em 2em;\">";
-    text += "<p><span class=\"ui label\">이름</span><li>"+member.name+"</li></p>";
-    text += "<p><span class=\"ui label\">연락처</span><li>"+member.phone+"</li></p>";
-    text += "<p><span class=\"ui label\">어떻게 알고 오셨나요?</spaN><li>"+member.recommend+"</li></p>";
-    text += "<p><span class=\"ui label\">한마디</span><li>"+member.comment+"</li></p>";
-    text += "<br><br><p>" + date +"&nbsp;에 접수됨.</p>";
-    text += "</div>";
+
+    var text = "<!DOCTYPE html><html>";
+    text += "<head><style>.label{font-size: 80%;margin-right: 5px;border: #22A7F0;background: #89C4F4;border-radius: 3px;padding: 4px 6px;color: #ffffff;}.cont{background:#f8f8f8;padding:.5em 1.5em;margin-bottom:10px;}</style></head>";
+    text += "<body><div class=\"cont\"><p><span class=\"label\">이름</span>"+member.name+"</p>";
+    text += "<p><span class=\"label\">연락처</span>"+member.phone+"</p>";
+    text += "<p><span class=\"label\">어떻게 알고 오셨나요?</span>"+member.recommend+"</p>";
+    text += "<p><span class=\"label\">한마디</span>"+member.comment+"</p></div>";
+    text += "<p style=\"font-size:90%;\">" + date +"&nbsp;에 접수됨.</p></body></html>";
     return text;
   }
 

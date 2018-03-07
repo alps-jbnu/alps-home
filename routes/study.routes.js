@@ -56,7 +56,7 @@ router.get('/', function(req, res) {
   });
 });
 
-router.get('/apply/select/:id', permission(['user', 'admin']), function(req, res) {
+router.get('/apply/select/:id', permission(['guest', 'user', 'admin']), function(req, res) {
   var id = req.param('id');
   var redirectPath = '/study/apply';
   studyApply.findById(id, function(err, entry){

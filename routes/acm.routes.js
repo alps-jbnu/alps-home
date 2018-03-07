@@ -11,7 +11,7 @@ var helper = require('./helper');
 var AcmApplyTeam = require('../models/acmApplyTeam');
 
 var APPLY_START_DATE = "2017-08-14 00:00";
-var APPLY_END_DATE   = "2017-09-12 19:00";
+var APPLY_END_DATE   = "2017-09-12 18:00";
 
 function isReady(){
   var start_date = moment.tz(APPLY_START_DATE, "Asia/Seoul");
@@ -32,7 +32,7 @@ router.use(function (req, res, next) {
 
 router.get('/', function(req, res) {
   AcmApplyTeam.find({
-    registered_date: {
+    registered_at: {
       $gte: new Date(APPLY_START_DATE),
       $lte: new Date(APPLY_END_DATE)
     }
