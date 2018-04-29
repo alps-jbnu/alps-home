@@ -16,7 +16,7 @@ h5.main.header { font-size: 1.5em; }
 
 #jumbotron_jnupc {
     background-size: cover;
-    background-image: url(/images/jnupc/background_2017.png);
+    background-image: url(/images/jnupc/background_2018.png);
     background-position: 50% 50%;
     height: 100vh !important;
 }
@@ -28,7 +28,7 @@ h5.main.header { font-size: 1.5em; }
 
 #jumbotron_cupc {
     background-size: cover;
-    background-image: url(/images/cupc/background_2017.png);
+    background-image: url(/images/cupc/background_2018.png);
     background-position: 50% 50%;
     height: 100vh !important;
 }

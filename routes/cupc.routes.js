@@ -10,8 +10,8 @@ var htmlspecialchars = require('htmlspecialchars');
 var helper = require('./helper');
 var AcmApplyTeam = require('../models/acmApplyTeam');
 
-var APPLY_START_DATE = "2017-05-08 00:00";
-var APPLY_END_DATE   = "2017-05-19 00:00";
+var APPLY_START_DATE = "2018-04-30 00:00";
+var APPLY_END_DATE   = "2018-05-24 00:00";
 
 function isReady(){
   var start_date = moment.tz(APPLY_START_DATE, "Asia/Seoul");
@@ -36,7 +36,7 @@ router.get('/', function(req, res) {
       return res.render('pages/error', {status: 500, message: err});
     
     res.render('pages/cupc', {
-      title: '2017 CUPC - 전북대학교 프로그래명 경진대회',
+      title: '2018 CNUPC - 전북대학교 프로그래밍 경진대회',
       teamlist: tlist,
       canBeApply: canApply(),
       readyApply: isReady()
@@ -76,7 +76,7 @@ router.post('/', helper.verifyGoogleReCAPTCHA, function(req, res) {
     var ip = result.ip_address.split('.'); ip[2] = '***';
     text += "IP: "+ ip.join('.');
 
-    var mailHeader = '[CUPC 2017] ';
+    var mailHeader = '[CNUPC 2018] ';
     mailHeader += '참가 팀(' + result.name + ') 접수 알림'; 
     helper.sendEmail(configs.admins, mailHeader, text);
 
