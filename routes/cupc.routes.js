@@ -31,7 +31,12 @@ router.use(function (req, res, next) {
 });
 
 router.get('/', function(req, res) {
-  AcmApplyTeam.find({}, function(err, tlist){
+  AcmApplyTeam.find({
+    "registered_at": {
+      "$gte": new Date(APPLY_START_DATE),
+      "$lte": new Date(APPLY_END_DATE)
+    }
+  }, function(err, tlist){
     if(err)
       return res.render('pages/error', {status: 500, message: err});
     
