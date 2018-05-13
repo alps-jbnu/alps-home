@@ -95,4 +95,80 @@ router.post('/', helper.verifyGoogleReCAPTCHA, function(req, res) {
   });
 });
 
+router.post('/admin', function(req, res) {
+  if( !!req.body.form_update ){
+    return update_teams(req, res);
+  }
+
+  var password = req.body.dashboard_password;
+  var answer = configs.cupc_password;
+  if( !answer ){
+    return res.json({
+      result: false,
+      messsage: 'please set password on config file'
+    });
+  }
+
+  if( password == answer ){
+    AcmApplyTeam.find({
+      "registered_at": {
+        "$gte": new Date(APPLY_START_DATE),
+        "$lte": new Date(APPLY_END_DATE)
+      }
+    }, function(err, tlist){
+      if(err)
+        return res.render('pages/error', {status: 500, message: err});
+    
+      res.render('pages/cupc/admin', {
+        title: '[ADMIN] 2018 CNUPC',
+        teamlist: tlist
+      });
+    });
+  } else {
+    res.redirect('/');
+  }
+});
+
+function update_teams(req, res, callback){
+  var length = req.body.team_id.length || 0;
+  var f = req.body;
+  f.team_id.some(function(id, i){
+    AcmApplyTeam.update(
+      {_id: id},
+      {
+        name: f.team_name[i],
+
+        member1_name: f.team_mem1[i],
+        member1_sid:  f.team_sid1[i],
+
+        member2_name: f.team_mem2[i],
+        member2_sid:  f.team_sid3[i],
+
+        member3_name: f.team_mem3[i],
+        member3_sid:  f.team_sid3[i]
+      },
+      function(err, num, rawres){
+        if(err){
+          res.json({result: false});
+          return true;
+        }
+      }
+    );
+  });
+
+  var remove_list = f.team_remove || [];
+  remove_list.some(function(id){
+    AcmApplyTeam.remove({_id: id}, function(err){
+      if(err) {
+        res.json({result: false});
+        return true;
+      }
+    });
+  });
+
+  return res.json({
+    result: true
+  });
+}
+
 exports = module.exports = router;

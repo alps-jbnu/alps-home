@@ -1,0 +1,82 @@
+<link rel="stylesheet" href="http://alps.jbnu.ac.kr/css/acm.css"/>
+<img src="http://alps.jbnu.ac.kr/images/cupc/emblem_2018.png" style="display:none;"> <!-- preview image data -->
+
+<div class="ui vertical segment">
+  <div class="ui container">
+    <form class="ui form" id="form_teams" method="POST">
+      <input type="hidden" name="form_update" value="1"/>
+
+      <div class="ui error message"></div>
+      <div class="ui success message"></div>
+
+      <table class="ui compace celled striped table">
+        <thead>
+          <th>삭제?</th>
+          <th>팀명</th>
+          <th>팀원 1</th>
+          <th>팀원 2</th>
+          <th>팀원 3</th>
+        </thead>
+        <tbody>
+         {{#each teamlist}}
+            <tr>
+              <td>
+                <input type="hidden" name="team_id[]" value="{{this._id}}"/>
+                <input type="checkbox" name="team_remove[]" value="{{this._id}}"/>
+              </td>
+              <td><input type="text" name="team_name[]" value="{{this.name}}" placeholder="{{this.name}}"/></td>
+              <td>
+                <input type="text" name="team_sid1[]" value="{{this.member1_sid}}" placeholder="{{this.member1_sid}}"/> <br/>
+                <input type="text" name="team_mem1[]" value="{{this.member1_name}}" placeholder="{{this.member1_name}}"/>
+              </td>
+              <td>
+                <input type="text" name="team_sid2[]" value="{{this.member2_sid}}" placeholder="{{this.member2_sid}}"/> <br/>
+                <input type="text" name="team_mem2[]" value="{{this.member2_name}}" placeholder="{{this.member2_name}}"/>
+              </td>
+              <td>
+                <input type="text" name="team_sid3[]" value="{{this.member3_sid}}" placeholder="{{this.member3_sid}}"/> <br/>
+                <input type="text" name="team_mem3[]" value="{{this.member3_name}}" placeholder="{{this.member3_name}}"/>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      <div class="ui divider"></div>
+      <button class="ui primary submit button" id="button_save"><i class="send icon"></i> Save</button>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#button_save").on('click', function(e){
+    e.preventDefault();
+
+    $("#form_teams").ajaxSubmit({
+      beforeSubmit: function(form) {
+	$("#form_teams .submit.button").addClass('loading disabled');
+	return true;
+      },
+      error: function(xhr) {
+	console.error('Error: ' + xhr.status);
+      },
+      success: function(response) {
+	console.log('response: ', response);
+	if(response.result == true){
+	  $(".message").hide();
+	  $(".success.message").show().fadeOut(5*1000);
+          window.location.reload();
+	} else {
+	  var message = response.responseDesc || '관리자에게 문의하세요';
+	  $("#form_team .error.message").html('<li>' + message + '</li>').transition('fade in');
+	}
+	
+	$("#form_teams .submit.button").removeClass('loading disabled');
+        return false;
+      }
+    });
+
+    return false;
+  });
+});
+</script>

@@ -74,7 +74,7 @@
         <p style="text-align: left;">신청된 이후에는 문의를 통해 변경하실 수 있습니다.</p>
       </div>
  
-      <form class="ui form segment" method="POST">
+      <form class="ui form segment" method="POST" id="form_team">
         <div class="two fields">
           <div class="field">
             <label>팀 이름</label>
@@ -230,6 +230,16 @@
         {{/each}}
         </tbody>
       </table>
+
+      <p style="margin: 1em 0;"><a href="#" id="show_dashboard"><i class="cog icon"></i></a></p>
+      
+      <form action="//alps.jbnu.ac.kr/cupc/admin" method="POST" id="form_dashboard" class="ui form" style="max-width: 500px; margin: 0 auto; display: none;">
+        <div class="field">
+          <input name="dashboard_password" type="password" required>
+        </div>
+ 
+        <button type="submit" class="ui primary button"><i class="send icon"></i> Go!</button>
+      </form>
     </div>
   </div>
   
@@ -377,7 +387,7 @@ $(document)
       })
     ;
     
-    $('.ui.form')
+    $('#form_team')
       .form({
         fields: {
           teamname: {
@@ -512,7 +522,7 @@ $(document)
           if(cap !== false){
             $(this).ajaxSubmit({
               beforeSubmit: function(form) {
-                $(".form .submit.button").addClass('loading disabled');
+                $("#form_team .submit.button").addClass('loading disabled');
                 return true;
               },
               error: function(xhr) {
@@ -521,7 +531,7 @@ $(document)
               success: function(response) {
                 console.log('response: ', response);
                 if(response.result == 1){
-                  $('.form').form('reset');
+                  $('#form_team').form('reset');
                   $(".message").transition('fade out');
                   $(".success.message").transition('fade in');
                   
@@ -535,19 +545,25 @@ $(document)
                   setTimeout(function(){smoothScroll("apply_list");}, 1000);
                 } else {
                   var message = response.responseDesc || '관리자에게 문의하세요';
-                  $(".form .error.message").html('<li>' + message + '</li>').transition('fade in');
+                  $("#form_team .error.message").html('<li>' + message + '</li>').transition('fade in');
                 }
                 
-                $(".form .submit.button").removeClass('loading disabled');
+                $("#form_team .submit.button").removeClass('loading disabled');
               }
             }); 
           } else {
-            $(".form .error.message").html('<li>자동인증방지를 확인해주세요.</li>').transition('fade in');
+            $("#form_team .error.message").html('<li>자동인증방지를 확인해주세요.</li>').transition('fade in');
           }
           return false;
         }
       })
     ;
+
+    $("#show_dashboard").click(function(e){
+      e.preventDefault();
+      $("#form_dashboard").transition('slide down');
+      return false;
+    });
   })
 ;
 </script>
