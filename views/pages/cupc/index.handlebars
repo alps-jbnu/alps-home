@@ -59,13 +59,21 @@
       <div class="ui divider main blue"></div>
       <p>당신의 멋진 코드를 보여주세요!</p>
 
-      <div class="ui green message">
+      <div class="ui green hidden message">
         <i class="close icon"></i>
         <div class="" style="text-align: center;">
           참가 시 <b>전공포인트</b>를 부여합니다.
         </div>
       </div>
 
+      <div class="ui red message">
+        <i class="close icon"></i>
+        <div class="header" style="text-align: left;">
+          주의하세요!
+        </div>
+        <p style="text-align: left;">신청된 이후에는 문의를 통해 변경하실 수 있습니다.</p>
+      </div>
+ 
       <form class="ui form segment" method="POST">
         <div class="two fields">
           <div class="field">
@@ -137,14 +145,7 @@
         </div>
       </div>
       
-      <div class="ui red message">
-        <i class="close icon"></i>
-        <div class="header" style="text-align: left;">
-          주의하세요!
-        </div>
-        <p style="text-align: left;">신청된 이후에는 문의를 통해 변경하실 수 있습니다.</p>
-      </div>
-      {{else if readyApply}}
+     {{else if readyApply}}
       <h1 class="main header">신청 준비중</h1>
       <div class="ui divider main blue"></div>
       <p>대회 참가 신청이 준비중입니다.</p>
