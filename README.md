@@ -1,7 +1,12 @@
 ## Start
 
 ```
-sudo forever start -c "npm start" <directory path> 
-sudo forever list
+sudo docker-compose build
+sudo docker-compose up -d
+```
+
+## Monitoring
+```
+sudo docker ps
 ```
 

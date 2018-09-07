@@ -70,7 +70,7 @@ db.once('open', function(){
   // CONNECTED TO MONGODB SERVER
   console.log("Connected to mongod server");
 });
-mongoose.connect('mongodb://localhost/' + config.database);
+mongoose.connect('mongodb://mongodb/' + config.database);
 
 // Mail Service (send-grid) API KEY configure
 console.log('SendGrid API KEY: ', config.SENDGRID_API_KEY);

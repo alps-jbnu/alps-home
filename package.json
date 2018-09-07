@@ -1,12 +1,12 @@
 {
   "name": "alps-server",
   "version": "0.0.0",
-  "description": "Site to alps",
+  "description": "Site for alps",
   "main": "server.js",
   "repository": "",
   "author": "Joonas Yoon <joonas.yoon@gmail.com>",
   "scripts": {
-    "prestart": "service mongod start"
+    "start": "node server.js"
   },
   "dependencies": {
     "async": "~0.2.8",

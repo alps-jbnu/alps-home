@@ -1,0 +1,30 @@
+version: "2" # https://docs.docker.com/compose/compose-file/#reference-and-guidelines
+services:
+  mongodb:
+    container_name: mongo
+    image: mvertes/alpine-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo:/ubuntu/db
+    networks: # 각 컨테이너를 연결하는 네트워크
+      - backend # 앱 서버와 같은 네트워크에 연결
+
+  server:
+    container_name: server
+    build: . # Dockerfile이 위치한 경로
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_PATH=src
+      - DB_HOST=mongo
+      - DB=alps_db
+    networks:
+      - backend
+
+networks: # 가장 기본적인 bridge 네트워크
+  backend:
+    driver: bridge
+
+volumes:
+  mongo:
