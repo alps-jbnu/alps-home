@@ -13,9 +13,9 @@ module.exports = {
         'dldudgns73@naver.com'
     ],
     
-    SENDGRID_API_KEY : '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',
+    SENDGRID_API_KEY : '',
     
     googleReCAPTCHA: {
-        secretKey : '6LcOthcUAAAAALUeDdO99SguVmFNdKF7IVPcXu2A'
+        secretKey : ''
     }
 };
