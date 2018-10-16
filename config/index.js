@@ -2,20 +2,20 @@
 
 module.exports = {
     
-    domain : 'https://home-joonas-yoon.c9users.io',
+    domain : 'https://example.com',
     
     port : 80,
     
-    database : 'alps_db',
+    database : 'db',
     
     admins : [
-        'joonas.yoon@gmail.com',
-        'dldudgns73@naver.com'
+        'admin@example.com',
+        'alps@example.com'
     ],
     
-    SENDGRID_API_KEY : '',
+    SENDGRID_API_KEY : 'keyboardcat',
     
     googleReCAPTCHA: {
-        secretKey : ''
+        secretKey : 'keyboardcat'
     }
 };
